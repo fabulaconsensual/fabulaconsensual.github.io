@@ -431,7 +431,7 @@ h6 {
 }
 
 .no-webp .hero-section{
-  background: url("/img/hero-image.png") no-repeat right top; }
+  background: url("../img/hero-image.png") no-repeat right top; }
 
 .hero-section {
   background-color: black;
@@ -867,7 +867,7 @@ h6 {
 }
 
 .no-webp .thanks__right{
-  background: url("../img/thanks/thanks.jpg") 0 0/cover no-repeat; }
+  background: url("..../img/thanks/thanks.jpg") 0 0/cover no-repeat; }
 
 .thanks__right {
   padding-top: 7.5rem;
@@ -2910,7 +2910,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
 
 @media (max-width: 960px) {
   .no-webp .hero-section{
-    background: url("/img/hero-image.png") no-repeat left top; }
+    background: url("../img/hero-image.png") no-repeat left top; }
   .hero-section {
     background-color: black;
   }
@@ -3080,7 +3080,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
 
 @media (max-width: 483px) {
   .no-webp .hero-section{
-    background: url("/img/hero-small.png") no-repeat right top/auto 100%; }
+    background: url("../img/hero-small.png") no-repeat right top/auto 100%; }
   .hero-section {
     background-color: black;
   }
@@ -3251,7 +3251,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
   }
 
   .no-webp .thanks__right{
-    background: url("../img/thanks/thanks.jpg") 0 0/cover no-repeat; }
+    background: url("..../img/thanks/thanks.jpg") 0 0/cover no-repeat; }
 
   .thanks__right {
     -webkit-box-flex: 0;
@@ -4899,11 +4899,11 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
 }
 }
 
-.webp .hero-section{ background: url(/img/hero-image.webp) no-repeat right top; }
+.webp .hero-section{ background: url(../img/hero-image.webp) no-repeat right top; }
 
 .webp .call-to-action{ background: url(../img/main/main-ca-bg.webp) left top/100% 93% no-repeat; }
 
-.webp .thanks__right{ background: url(../img/thanks/thanks.webp) 0 0/cover no-repeat; }
+.webp .thanks__right{ background: url(..../img/thanks/thanks.webp) 0 0/cover no-repeat; }
 
 .webp .header-block{ background: url(../img/cars/cars-header.webp) right top no-repeat; }
 
@@ -4914,15 +4914,15 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
 
 @media (max-width: 960px){
 
-  .webp .hero-section{ background: url(/img/hero-image.webp) no-repeat left top; }
+  .webp .hero-section{ background: url(../img/hero-image.webp) no-repeat left top; }
 }
 
 @media (max-width: 483px){
 
-  .webp .hero-section{ background: url(/img/hero-small.webp) no-repeat right top/auto 100%; }
+  .webp .hero-section{ background: url(../img/hero-small.webp) no-repeat right top/auto 100%; }
 }
 
 @media (max-width: 48.74875em){
 
-  .webp .thanks__right{ background: url(../img/thanks/thanks.webp) 0 0/cover no-repeat; }
+  .webp .thanks__right{ background: url(..../img/thanks/thanks.webp) 0 0/cover no-repeat; }
 }

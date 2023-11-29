@@ -6420,17 +6420,17 @@ PERFORMANCE OF THIS SOFTWARE.
         loadCarDB();
         function buildCarCards(item) {
             let carParkCard = ``;
-            carParkCard += `\n\t\x3c!-- Car Cards #${item.id} :: ${item.name} --\x3e\n\t<div class="car-block__row_item">\n\t\x3c!--<div class="car-img">\n\t\t\t<img src="../img/cars/${item.img}" alt="">\n\t\t</div>--\x3e\n\t\t<img class="car-img" src="../img/cars/${item.img}" alt="">\n\n\t\t<div class="car-ptr">\n\t\t\t<div class="car-name">${item.name}</div>\n\t\t\t<div class="car-plist">\n\t\t\t\t<div class="car-ca-ptr">\n\t\t`;
+            carParkCard += `\n\t\x3c!-- Car Cards #${item.id} :: ${item.name} --\x3e\n\t<div class="car-block__row_item">\n\t\x3c!--<div class="car-img">\n\t\t\t<img src="/img/cars/${item.img}" alt="">\n\t\t</div>--\x3e\n\t\t<img class="car-img" src="/img/cars/${item.img}" alt="">\n\n\t\t<div class="car-ptr">\n\t\t\t<div class="car-name">${item.name}</div>\n\t\t\t<div class="car-plist">\n\t\t\t\t<div class="car-ca-ptr">\n\t\t`;
             if (item.kpp == "auto") {
-                carParkCard += `\n\t\t\t\t\t<img src="../img/transmission-auto.svg" alt="">`;
+                carParkCard += `\n\t\t\t\t\t<img src="/img/transmission-auto.svg" alt="">`;
                 carParkCard += `\n\t\t\t\t\tавто`;
             } else {
-                carParkCard += `\n\t\t\t\t\t<img src="../img/transmission-manual.svg" alt=""> `;
+                carParkCard += `\n\t\t\t\t\t<img src="/img/transmission-manual.svg" alt=""> `;
                 carParkCard += `\n\t\t\t\t\tручная`;
             }
-            carParkCard += `\n\t\t\t\t</div>\n\t\t\t\t<div class="car-ca-ptr">\n\t\t\t\t\t<img src="../img/Gas.svg" alt=""> \n\t`;
+            carParkCard += `\n\t\t\t\t</div>\n\t\t\t\t<div class="car-ca-ptr">\n\t\t\t\t\t<img src="/img/Gas.svg" alt=""> \n\t`;
             if (item.gas == "gasolin") carParkCard += `\n\t\t\t\t\t\tбензин`; else carParkCard += `\n\t\t\t\t\t\tдизель`;
-            carParkCard += `\n\t\t\t\t</div>\n\t\t\t\t<div class="car-ca-ptr">\n\t\t\t\t\t<img src="../img/seats.svg" alt="">\n\t\t\t\t\t${item.seats}\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class="car-price">от ${item.sprice}€/день</div>\n\t\t\t<div class="car-ptr_button"><a href="car1.html">бронировать</a></div>\n\t\t</div>\n\t</div> \n\t`;
+            carParkCard += `\n\t\t\t\t</div>\n\t\t\t\t<div class="car-ca-ptr">\n\t\t\t\t\t<img src="/img/seats.svg" alt="">\n\t\t\t\t\t${item.seats}\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class="car-price">от ${item.sprice}€/день</div>\n\t\t\t<div class="car-ptr_button"><a href="car1.html">бронировать</a></div>\n\t\t</div>\n\t</div> \n\t`;
             return carParkCard;
         }
         function buildCarParkUpBlock(item) {
@@ -6445,17 +6445,17 @@ PERFORMANCE OF THIS SOFTWARE.
         }
         function buildMainCaruselItem(item) {
             let carCaruselCards = ``;
-            carCaruselCards += `\n\t\x3c!-- Car Cards #${item.id} :: ${item.name} --\x3e\n\t<div class="swiper-slide ca-item">\n\t\t<img class="ca-img" src="../img/cars/${item.img}" alt="">\n\t\t<div class="block-card">\n\t\t\t<div class="car-name"> ${item.name} </div>\n\t\t\t<div class="plist">\n\t\t\t\t<div class="ca-ptr">\n\t`;
+            carCaruselCards += `\n\t\x3c!-- Car Cards #${item.id} :: ${item.name} --\x3e\n\t<div class="swiper-slide ca-item">\n\t\t<img class="ca-img" src="/img/cars/${item.img}" alt="">\n\t\t<div class="block-card">\n\t\t\t<div class="car-name"> ${item.name} </div>\n\t\t\t<div class="plist">\n\t\t\t\t<div class="ca-ptr">\n\t`;
             if (item.kpp == "auto") {
-                carCaruselCards += `\n\t\t\t\t\t<img src="../img/transmission-auto.svg" alt="">`;
+                carCaruselCards += `\n\t\t\t\t\t<img src="/img/transmission-auto.svg" alt="">`;
                 carCaruselCards += `\n\t\t\t\t\tавто`;
             } else {
-                carCaruselCards += `\n\t\t\t\t\t<img src="../img/transmission-manual.svg" alt=""> `;
+                carCaruselCards += `\n\t\t\t\t\t<img src="/img/transmission-manual.svg" alt=""> `;
                 carCaruselCards += `\n\t\t\t\t\tручная`;
             }
-            carCaruselCards += `\n\t\t\t\t</div>\n\t\t\t\t<div class="ca-ptr">\n\t\t\t\t\t<img src="../img/Gas.svg" alt=""> \n\t`;
+            carCaruselCards += `\n\t\t\t\t</div>\n\t\t\t\t<div class="ca-ptr">\n\t\t\t\t\t<img src="/img/Gas.svg" alt=""> \n\t`;
             if (item.gas == "gasolin") carCaruselCards += `\n\t\t\t\t\t\tбензин`; else carCaruselCards += `\n\t\t\t\t\t\tдизель`;
-            carCaruselCards += `\n\t\t\t\t</div>\n\t\t\t\t<div class="ca-ptr">\n\t\t\t\t\t<img src="../img/seats.svg" alt="">\n\t\t\t\t\t${item.seats}\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class="price">от ${item.sprice}€/день</div>\n\t\t\t<div class="main_card_button"><a href="car1.html">подробнее</a></div>\n\t\t</div>\n\t</div> \n\t`;
+            carCaruselCards += `\n\t\t\t\t</div>\n\t\t\t\t<div class="ca-ptr">\n\t\t\t\t\t<img src="/img/seats.svg" alt="">\n\t\t\t\t\t${item.seats}\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class="price">от ${item.sprice}€/день</div>\n\t\t\t<div class="main_card_button"><a href="car1.html">подробнее</a></div>\n\t\t</div>\n\t</div> \n\t`;
             console.log(carCaruselCards);
             mainCarusel.insertAdjacentHTML("beforeend", carCaruselCards);
         }

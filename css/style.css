@@ -535,7 +535,8 @@ h6 {
 }
 
 .no-webp .call-to-action{
-  background: url("../img/main/main-ca-bg.png") left top/100% 93% no-repeat; }
+  background: url("../img/main/main-ca-bg.png") left top/100% 93% no-repeat;
+  background-color: black; }
 
 .call-to-action {
   -webkit-box-flex: 1;

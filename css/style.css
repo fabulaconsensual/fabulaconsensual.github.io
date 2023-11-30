@@ -431,7 +431,7 @@ h6 {
 }
 
 .no-webp .hero-section{
-  background: url("../img/hero-image.png") no-repeat right top, black; }
+  background: url("../img/hero-image.png") no-repeat right top, #131313; }
 
 .hero-section {
   color: white;
@@ -469,7 +469,7 @@ h6 {
 }
 
 .hero__container .hero-left-block {
-  background: linear-gradient(91deg, #000 55.93%, rgba(0, 0, 0, 0.77) 65.02%, rgba(0, 0, 0, 0) 102.41%);
+  background: linear-gradient(91deg, #131313 55.93%, rgba(13, 13, 13, 0.77) 65.02%, rgba(13, 13, 13, 0) 102.41%);
   width: 486px;
   height: 100%;
   padding-top: 5.625rem;
@@ -3060,7 +3060,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
 
 @media (max-width: 960px) {
   .no-webp .hero-section{
-    background: url("../img/hero-image.png") no-repeat left top, black; }
+    background: url("../img/hero-image.png") no-repeat left top, #131313; }
 }
 
 @media (max-width: 812px) {
@@ -3227,7 +3227,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
 
 @media (max-width: 483px) {
   .no-webp .hero-section{
-    background: url("../img/hero-small.png") no-repeat right top/auto 100%, black; }
+    background: url("../img/hero-small.png") no-repeat right top/auto 100%, #131313; }
 }
 
 @media (max-width: 48.74875em) {
@@ -5043,7 +5043,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
 }
 }
 
-.webp .hero-section{ background: url(../img/hero-image.webp) no-repeat right top, black; }
+.webp .hero-section{ background: url(../img/hero-image.webp) no-repeat right top, #131313; }
 
 .webp .call-to-action{ background: url(../img/main/main-ca-bg.webp) left top/100% 93% no-repeat; }
 
@@ -5058,12 +5058,12 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
 
 @media (max-width: 960px){
 
-  .webp .hero-section{ background: url(../img/hero-image.webp) no-repeat left top, black; }
+  .webp .hero-section{ background: url(../img/hero-image.webp) no-repeat left top, #131313; }
 }
 
 @media (max-width: 483px){
 
-  .webp .hero-section{ background: url(../img/hero-small.webp) no-repeat right top/auto 100%, black; }
+  .webp .hero-section{ background: url(../img/hero-small.webp) no-repeat right top/auto 100%, #131313; }
 }
 
 @media (max-width: 48.74875em){

@@ -535,8 +535,7 @@ h6 {
 }
 
 .no-webp .call-to-action{
-  background: url("../img/main/main-ca-bg.png") left top/100% 93% no-repeat;
-  background-color: black; }
+  background: url("../img/main/main-ca-bg.png") left top/100% 93% no-repeat; }
 
 .call-to-action {
   -webkit-box-flex: 1;
@@ -3062,10 +3061,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
 
 @media (max-width: 960px) {
   .no-webp .hero-section{
-    background: url("../img/hero-image.png") no-repeat left top; }
-  .hero-section {
-    background-color: black;
-  }
+    background: url("../img/hero-image.png") no-repeat left top, black; }
 }
 
 @media (max-width: 812px) {
@@ -3232,10 +3228,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
 
 @media (max-width: 483px) {
   .no-webp .hero-section{
-    background: url("../img/hero-small.png") no-repeat right top/auto 100%; }
-  .hero-section {
-    background-color: black;
-  }
+    background: url("../img/hero-small.png") no-repeat right top/auto 100%, black; }
 }
 
 @media (max-width: 48.74875em) {
@@ -5066,12 +5059,12 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
 
 @media (max-width: 960px){
 
-  .webp .hero-section{ background: url(../img/hero-image.webp) no-repeat left top; }
+  .webp .hero-section{ background: url(../img/hero-image.webp) no-repeat left top, black; }
 }
 
 @media (max-width: 483px){
 
-  .webp .hero-section{ background: url(../img/hero-small.webp) no-repeat right top/auto 100%; }
+  .webp .hero-section{ background: url(../img/hero-small.webp) no-repeat right top/auto 100%, black; }
 }
 
 @media (max-width: 48.74875em){

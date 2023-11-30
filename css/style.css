@@ -511,7 +511,6 @@ h6 {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  border: 1px solid red;
 }
 
 .main__container h3 {

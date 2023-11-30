@@ -81,11 +81,54 @@
 			</section>
 
 			<section class="contact-block">
-				<div class="contact__address">
-					address, email, phone, social and map
-				</div>
-				<div class="contact__form">
-					feedback form
+				<div class="contact-block__container">
+					<div class="contacts-map">
+						<div class="contacts">
+							<div class="contacts__phone">
+								<img src="../img/contacts/phone.svg" alt="" class="img-icon">
+								<p>
+									+351 960 00 4045
+								</p>
+							</div>
+							<div class="contacts__email">
+								<img src="../img/contacts/email.svg" alt="" class="img-icon">
+								<p>
+									info@fabula.rentals
+								</p>
+							</div>
+							<div class="contacts__address">
+								<img src="../img/contacts/location.svg" alt="" class="img-icon">
+								<p>
+									66 Rua da Ponta da Cruz <br>
+									Funchal, Madeira
+								</p>
+							</div>
+							<div class="social">
+								<a href="https://www.facebook.com/profile.php?id=61552044343485"><img class="contacts__social_icons" src="../img/fb.svg" alt="Facebook"></a>
+								<a href="https://www.instagram.com/fabula_rentals"><img class="contacts__social_icons" src="../img/insta.svg" alt="Instagram"></a>
+								<a href="https://www.linkedin.com/company/fabula-consensual-car-rentals/about/"> <img class="contacts__social_icons" src="../img/linkedin.svg" alt="LinkedIn"></a>
+							</div>
+						</div>
+						<img class="map" src="../img/contacts/map.png" alt="123">
+					</div>
+					<div class="contact__form">
+						<!--feedback form-->
+						<div class="contact__form__text">
+							Напишите нам
+						</div>
+						<form id="fs-frm" name="simple-contact-form" accept-charset="utf-8" action="https://formspree.io/f/{form_id}" method="post">
+							<fieldset id="fs-frm-inputs">
+								<label for="full-name">Ваше имя<span>*</span></label>
+								<input type="text" name="name" id="full-name" placeholder="First and Last" required="">
+								<label for="email-address">Ваш email<span>*</span></label>
+								<input type="email" name="_replyto" id="email-address" placeholder="email@domain.tld" required="">
+								<label for="message">Текст сообщения<span>*</span></label>
+								<textarea rows="5" name="message" id="message" placeholder="Aenean lacinia bibendum nulla sed consectetur. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Donec ullamcorper nulla non metus auctor fringilla nullam quis risus." required=""></textarea>
+								<input type="hidden" name="_subject" id="email-subject" value="Contact Form Submission">
+							</fieldset>
+							<input type="submit" value="Отправить">
+						</form>
+					</div>
 				</div>
 			</section>
 

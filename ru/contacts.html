@@ -113,20 +113,20 @@
 					</div>
 					<div class="contact__form">
 						<!--feedback form-->
-						<div class="contact__form__text">
+						<div class="contact__form-title">
 							Напишите нам
 						</div>
 						<form id="fs-frm" name="simple-contact-form" accept-charset="utf-8" action="https://formspree.io/f/{form_id}" method="post">
-							<fieldset id="fs-frm-inputs">
-								<label for="full-name">Ваше имя<span>*</span></label>
-								<input type="text" name="name" id="full-name" placeholder="First and Last" required="">
-								<label for="email-address">Ваш email<span>*</span></label>
-								<input type="email" name="_replyto" id="email-address" placeholder="email@domain.tld" required="">
-								<label for="message">Текст сообщения<span>*</span></label>
-								<textarea rows="5" name="message" id="message" placeholder="Aenean lacinia bibendum nulla sed consectetur. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Donec ullamcorper nulla non metus auctor fringilla nullam quis risus." required=""></textarea>
+							<fieldset class="contact__form-block" id="fs-frm-inputs">
+								<label class="contact__form-label" for="full-name">Ваше имя<span>*</span></label>
+								<input class="contact__form-field" type="text" name="name" id="full-name" placeholder="" required="">
+								<label class="contact__form-label" for="email-address">Ваш email<span>*</span></label>
+								<input class="contact__form-field" type="email" name="_replyto" id="email-address" placeholder="" required="">
+								<label class="contact__form-label" for="message">Текст сообщения<span>*</span></label>
+								<textarea class="contact__form-text" rows="5" name="message" id="message" placeholder="" required=""></textarea>
 								<input type="hidden" name="_subject" id="email-subject" value="Contact Form Submission">
 							</fieldset>
-							<input type="submit" value="Отправить">
+							<input class="contact__form-button" type="submit" value="Отправить">
 						</form>
 					</div>
 				</div>

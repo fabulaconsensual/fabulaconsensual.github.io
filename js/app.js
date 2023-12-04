@@ -6415,9 +6415,18 @@ PERFORMANCE OF THIS SOFTWARE.
                     } else if (car_park_down) buildCarParkDownBlock(item);
                     itemN += 1;
                 }));
+                console.log("itemN= ");
+                console.log(itemN);
+                if (itemN % 2 === 0) if (car_park_down) buildCarParkOddBlock();
             } else alert("Error :: Cars DB file currupted! Contact with site administration by the main fabula.rentals@gmail.com");
         }
         loadCarDB();
+        function buildCarParkOddBlock() {
+            let cCard = ``;
+            cCard += `\n\t\x3c!-- OddBlock --\x3e\n\t<div class="car-block__row_item">\n\t\t\t\x3c!--<div class="car-img">--\x3e\n\t\t\t\t<img class="car-img" src="../img/cars/road.jpg" alt="">\n\t\t\t\x3c!--</div>--\x3e\n\t\t\t<div class="car-ptr">  \x3c!-- "oddcont"--\x3e \n\t\t\t\t<div class="oddcont__text">\n\t\t\t\t\tПри <span>аренде</span> авто <span>на месяц и больше</span>, мы предложим вам индивидуальные и\n\t\t\t\t\tочень выгодные\n\t\t\t\t\t<span>условия</span>\n\t\t\t\t</div>\n\t\t\t\t<div class="oddcont__contact">\n\t\t\t\t\t<img src="../img/cars/phone.svg" alt="" class="phone-icon">\n\t\t\t\t\t<div class="phone-num">\n\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\tзвоните\n\t\t\t\t\t\t</p>\n\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\t+351 960 00 4045\n\t\t\t\t\t\t</p>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\n\t</div>\n\t`;
+            console.log(cCard);
+            car_park_down.insertAdjacentHTML("beforeend", cCard);
+        }
         function buildCarCards(item) {
             let carParkCard = ``;
             carParkCard += `\n\t\x3c!-- Car Cards #${item.id} :: ${item.name} --\x3e\n\t<div class="car-block__row_item">\n\t\x3c!--<div class="car-img">\n\t\t\t<img src="/img/cars/${item.img}" alt="">\n\t\t</div>--\x3e\n\t\t<img class="car-img" src="/img/cars/${item.img}" alt="">\n\n\t\t<div class="car-ptr">\n\t\t\t<div class="car-name">${item.name}</div>\n\t\t\t<div class="car-plist">\n\t\t\t\t<div class="car-ca-ptr">\n\t\t`;

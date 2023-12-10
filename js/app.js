@@ -6394,11 +6394,15 @@ PERFORMANCE OF THIS SOFTWARE.
         function getLang() {
             return document["childNodes"][1]["attributes"]["lang"].value;
         }
-        const home_header = document.querySelector(".header");
+        document.querySelector(".header");
         const mainCarusel = document.querySelector(".main-ccc");
         const car_park_up = document.querySelector(".car-block__row--up");
         const car_park_down = document.querySelector(".car-block__row--down");
-        if (home_header) loadHeader();
+        const header_block_text = document.querySelector(".header-block__text");
+        const car_picture = document.querySelector(".car__picture");
+        const car_cdtable_main = document.querySelector(".car__cdtable_main");
+        const car_cdtable_others = document.querySelector(".car__cdtable_others");
+        const cLang = document["childNodes"][1]["attributes"]["lang"].value;
         async function loadCarDB() {
             const carsDB = await fetch("/files/cars.json", {
                 method: "GET"
@@ -6406,25 +6410,66 @@ PERFORMANCE OF THIS SOFTWARE.
             if (carsDB.ok) {
                 const carItems = await carsDB.json();
                 console.log("CarsDB loaded!");
-                console.log(carItems["cars"]);
                 let itemN = 1;
                 carItems.cars.forEach((item => {
                     if (mainCarusel) buildMainCaruselItem(item);
                     if (itemN < 5) {
                         if (car_park_up) buildCarParkUpBlock(item);
                     } else if (car_park_down) buildCarParkDownBlock(item);
+                    if (car_picture && item.id == location.hash.slice(1)) buildCarDetailPage(item);
                     itemN += 1;
                 }));
-                console.log("itemN= ");
-                console.log(itemN);
                 if (itemN % 2 === 0) if (car_park_down) buildCarParkOddBlock();
             } else alert("Error :: Cars DB file currupted! Contact with site administration by the main fabula.rentals@gmail.com");
         }
         loadCarDB();
         function buildCarParkOddBlock() {
             let cCard = ``;
-            cCard += `\n\t\x3c!-- OddBlock --\x3e\n\t<div class="car-block__row_item">\n\t\t\t\x3c!--<div class="car-img">--\x3e\n\t\t\t\t<img class="car-img" src="../img/cars/road.jpg" alt="">\n\t\t\t\x3c!--</div>--\x3e\n\t\t\t<div class="car-ptr">  \x3c!-- "oddcont"--\x3e \n\t\t\t\t<div class="oddcont__text">\n\t\t\t\t\tПри <span>аренде</span> авто <span>на месяц и больше</span>, мы предложим вам индивидуальные и\n\t\t\t\t\tочень выгодные\n\t\t\t\t\t<span>условия</span>\n\t\t\t\t</div>\n\t\t\t\t<div class="oddcont__contact">\n\t\t\t\t\t<img src="../img/cars/phone.svg" alt="" class="phone-icon">\n\t\t\t\t\t<div class="phone-num">\n\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\tзвоните\n\t\t\t\t\t\t</p>\n\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\t+351 960 00 4045\n\t\t\t\t\t\t</p>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\n\t</div>\n\t`;
-            console.log(cCard);
+            cCard += `\n\t\x3c!-- OddBlock --\x3e\n\t<div class="car-block__row_item">\n\t\t\t\x3c!--<div class="car-img">--\x3e\n\t\t\t\t<img class="car-img" src="../img/cars/road.jpg" alt="">\n\t\t\t\x3c!--</div>--\x3e\n\t\t\t<div class="car-ptr">  \x3c!-- "oddcont"--\x3e \n\t\t\t\t<div class="oddcont__text">`;
+            switch (getLang()) {
+              case "en":
+                cCard += `\n\t\t\tWhen <span>renting</span> a car <span>for a month or more</span>, we will offer you individual and very favorable\n\t\t\t<span>conditions</span>`;
+                break;
+
+              case "ru":
+                cCard += `\n\t\t\tПри <span>аренде</span> авто <span>на месяц и больше</span>, мы предложим вам индивидуальные и\n\t\t\tочень выгодные\n\t\t\t<span>условия</span>`;
+                break;
+
+              case "ua":
+                cCard += `\n\t\t\tПри <span>оренді</span> авто <span>на місяць і більше</span>, ми запропонуємо вам індивідуальні та дуже вигідні\n\t\t\t<span>умови</span>`;
+                break;
+
+              case "pt":
+                cCard += `\n\t\t\tAo <span>alugar</span> um carro <span>por um mês ou mais</span>, oferecemos-lhe condições individuais e muito\n\t\t\t<span>favoráveis</span>`;
+                break;
+
+              case "fr":
+                cCard += `\n\t\t\tLors <span>de la location</span> d'une voiture <span>pour un mois ou plus</span>, nous vous proposerons des conditions individuelles et très\n\t\t\t<span>avantageuses</span>`;
+                break;
+            }
+            cCard += `\n\t\t\t\t</div>\n\t\t\t\t<div class="oddcont__contact">\n\t\t\t\t\t<img src="../img/cars/phone.svg" alt="" class="phone-icon">\n\t\t\t\t\t<div class="phone-num">\n\t\t\t\t\t\t<p>`;
+            switch (getLang()) {
+              case "en":
+                cCard += `\n\t\t\tcall us`;
+                break;
+
+              case "ru":
+                cCard += `\n\t\t\tзвоните`;
+                break;
+
+              case "ua":
+                cCard += `\n\t\t\tдзвоніть`;
+                break;
+
+              case "pt":
+                cCard += `\n\t\t\tchamar`;
+                break;
+
+              case "fr":
+                cCard += `\n\t\t\tappel`;
+                break;
+            }
+            cCard += `\n\t\t\t\t\t\t</p>\n\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\t+351 960 00 4045\n\t\t\t\t\t\t</p>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\t\t\n\t</div>\n\t`;
             car_park_down.insertAdjacentHTML("beforeend", cCard);
         }
         function buildCarCards(item) {
@@ -6432,24 +6477,146 @@ PERFORMANCE OF THIS SOFTWARE.
             carParkCard += `\n\t\x3c!-- Car Cards #${item.id} :: ${item.name} --\x3e\n\t<div class="car-block__row_item">\n\t\x3c!--<div class="car-img">\n\t\t\t<img src="/img/cars/${item.img}" alt="">\n\t\t</div>--\x3e\n\t\t<img class="car-img" src="/img/cars/${item.img}" alt="">\n\n\t\t<div class="car-ptr">\n\t\t\t<div class="car-name">${item.name}</div>\n\t\t\t<div class="car-plist">\n\t\t\t\t<div class="car-ca-ptr">\n\t\t`;
             if (item.kpp == "auto") {
                 carParkCard += `\n\t\t\t\t\t<img src="/img/transmission-auto.svg" alt="">`;
-                carParkCard += `\n\t\t\t\t\tавто`;
+                switch (getLang()) {
+                  case "en":
+                    carParkCard += `\n\t\t\t\tauto`;
+                    break;
+
+                  case "ru":
+                    carParkCard += `\n\t\t\t\tавто`;
+                    break;
+
+                  case "ua":
+                    carParkCard += `\n\t\t\t\tавто`;
+                    break;
+
+                  case "pt":
+                    carParkCard += `\n\t\t\t\tauto`;
+                    break;
+
+                  case "fr":
+                    carParkCard += `\n\t\t\t\tauto`;
+                    break;
+                }
             } else {
                 carParkCard += `\n\t\t\t\t\t<img src="/img/transmission-manual.svg" alt=""> `;
-                carParkCard += `\n\t\t\t\t\tручная`;
+                switch (getLang()) {
+                  case "en":
+                    carParkCard += `\n\t\t\t\tmanual`;
+                    break;
+
+                  case "ru":
+                    carParkCard += `\n\t\t\t\tручная`;
+                    break;
+
+                  case "ua":
+                    carParkCard += `\n\t\t\t\tручна`;
+                    break;
+
+                  case "pt":
+                    carParkCard += `\n\t\t\t\tmanual`;
+                    break;
+
+                  case "fr":
+                    carParkCard += `\n\t\t\t\tmanuel`;
+                    break;
+                }
             }
             carParkCard += `\n\t\t\t\t</div>\n\t\t\t\t<div class="car-ca-ptr">\n\t\t\t\t\t<img src="/img/Gas.svg" alt=""> \n\t`;
-            if (item.gas == "gasolin") carParkCard += `\n\t\t\t\t\t\tбензин`; else carParkCard += `\n\t\t\t\t\t\tдизель`;
-            carParkCard += `\n\t\t\t\t</div>\n\t\t\t\t<div class="car-ca-ptr">\n\t\t\t\t\t<img src="/img/seats.svg" alt="">\n\t\t\t\t\t${item.seats}\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class="car-price">от ${item.sprice}€/день</div>\n\t\t\t<div class="car-ptr_button"><a href="car1.html">бронировать</a></div>\n\t\t</div>\n\t</div> \n\t`;
+            if (item.gas == "gasolin") switch (getLang()) {
+              case "en":
+                carParkCard += `\n\t\t\t\tpetrol`;
+                break;
+
+              case "ru":
+                carParkCard += `\n\t\t\t\tбензин`;
+                break;
+
+              case "ua":
+                carParkCard += `\n\t\t\t\tбензин`;
+                break;
+
+              case "pt":
+                carParkCard += `\n\t\t\t\tgasolina`;
+                break;
+
+              case "fr":
+                carParkCard += `\n\t\t\t\tessence`;
+                break;
+            } else switch (getLang()) {
+              case "en":
+                carParkCard += `\n\t\t\t\tdiesel`;
+                break;
+
+              case "ru":
+                carParkCard += `\n\t\t\t\tдизель`;
+                break;
+
+              case "ua":
+                carParkCard += `\n\t\t\t\tдизель`;
+                break;
+
+              case "pt":
+                carParkCard += `\n\t\t\t\tdiesel`;
+                break;
+
+              case "fr":
+                carParkCard += `\n\t\t\t\tdiesel`;
+                break;
+            }
+            carParkCard += `\n\t\t\t\t</div>\n\t\t\t\t<div class="car-ca-ptr">\n\t\t\t\t\t<img src="/img/seats.svg" alt="">\n\t\t\t\t\t${item.seats}\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class="car-price">`;
+            switch (getLang()) {
+              case "en":
+                carParkCard += `\n\t\t\tfrom ${item.sprice}€/day`;
+                break;
+
+              case "ru":
+                carParkCard += `\n\t\t\tот ${item.sprice}€/день`;
+                break;
+
+              case "ua":
+                carParkCard += `\n\t\t\tвід ${item.sprice}€/день`;
+                break;
+
+              case "pt":
+                carParkCard += `\n\t\t\tde ${item.sprice}€/dia`;
+                break;
+
+              case "fr":
+                carParkCard += `\n\t\t\tdepuis ${item.sprice}€/jour`;
+                break;
+            }
+            carParkCard += `\n\t\t\t</div>\n\t\t\t<div class="car-ptr_button"><a href="car.html#${item.id}">`;
+            switch (getLang()) {
+              case "en":
+                carParkCard += `\n\t\t\trent`;
+                break;
+
+              case "ru":
+                carParkCard += `\n\t\t\tбронировать`;
+                break;
+
+              case "ua":
+                carParkCard += `\n\t\t\tбронювати`;
+                break;
+
+              case "pt":
+                carParkCard += `\n\t\t\tagendar`;
+                break;
+
+              case "fr":
+                carParkCard += `\n\t\t\tréserver`;
+                break;
+            }
+            carParkCard += `</a></div>\n\t\t</div>\n\t</div> \n\t`;
             return carParkCard;
         }
         function buildCarParkUpBlock(item) {
             const cCard = buildCarCards(item);
-            console.log(cCard);
             car_park_up.insertAdjacentHTML("beforeend", cCard);
         }
         function buildCarParkDownBlock(item) {
             const cCard = buildCarCards(item);
-            console.log(cCard);
             car_park_down.insertAdjacentHTML("beforeend", cCard);
         }
         function buildMainCaruselItem(item) {
@@ -6457,30 +6624,139 @@ PERFORMANCE OF THIS SOFTWARE.
             carCaruselCards += `\n\t\x3c!-- Car Cards #${item.id} :: ${item.name} --\x3e\n\t<div class="swiper-slide ca-item">\n\t\t<img class="ca-img" src="/img/cars/${item.img}" alt="">\n\t\t<div class="block-card">\n\t\t\t<div class="car-name"> ${item.name} </div>\n\t\t\t<div class="plist">\n\t\t\t\t<div class="ca-ptr">\n\t`;
             if (item.kpp == "auto") {
                 carCaruselCards += `\n\t\t\t\t\t<img src="/img/transmission-auto.svg" alt="">`;
-                carCaruselCards += `\n\t\t\t\t\tавто`;
+                switch (getLang()) {
+                  case "en":
+                    carCaruselCards += `\n\t\t\t\tauto`;
+                    break;
+
+                  case "ru":
+                    carCaruselCards += `\n\t\t\t\tавто`;
+                    break;
+
+                  case "ua":
+                    carCaruselCards += `\n\t\t\t\tавто`;
+                    break;
+
+                  case "pt":
+                    carCaruselCards += `\n\t\t\t\tauto`;
+                    break;
+
+                  case "fr":
+                    carCaruselCards += `\n\t\t\t\tauto`;
+                    break;
+                }
             } else {
                 carCaruselCards += `\n\t\t\t\t\t<img src="/img/transmission-manual.svg" alt=""> `;
-                carCaruselCards += `\n\t\t\t\t\tручная`;
+                switch (getLang()) {
+                  case "en":
+                    carCaruselCards += `\n\t\t\t\tmanual`;
+                    break;
+
+                  case "ru":
+                    carCaruselCards += `\n\t\t\t\tручная`;
+                    break;
+
+                  case "ua":
+                    carCaruselCards += `\n\t\t\t\tручна`;
+                    break;
+
+                  case "pt":
+                    carCaruselCards += `\n\t\t\t\tmanual`;
+                    break;
+
+                  case "fr":
+                    carCaruselCards += `\n\t\t\t\tmanuel`;
+                    break;
+                }
             }
             carCaruselCards += `\n\t\t\t\t</div>\n\t\t\t\t<div class="ca-ptr">\n\t\t\t\t\t<img src="/img/Gas.svg" alt=""> \n\t`;
-            if (item.gas == "gasolin") carCaruselCards += `\n\t\t\t\t\t\tбензин`; else carCaruselCards += `\n\t\t\t\t\t\tдизель`;
-            carCaruselCards += `\n\t\t\t\t</div>\n\t\t\t\t<div class="ca-ptr">\n\t\t\t\t\t<img src="/img/seats.svg" alt="">\n\t\t\t\t\t${item.seats}\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class="price">от ${item.sprice}€/день</div>\n\t\t\t<div class="main_card_button"><a href="car1.html">подробнее</a></div>\n\t\t</div>\n\t</div> \n\t`;
-            console.log(carCaruselCards);
-            mainCarusel.insertAdjacentHTML("beforeend", carCaruselCards);
-        }
-        async function loadHeader() {
-            const labels = await fetch("/files/labels.json", {
-                method: "GET"
-            });
-            if (labels.ok) {
-                const res = await labels.json();
-                initHeader(res);
+            if (item.gas == "gasolin") switch (getLang()) {
+              case "en":
+                carCaruselCards += `\n\t\t\t\tpetrol`;
+                break;
+
+              case "ru":
+                carCaruselCards += `\n\t\t\t\tбензин`;
+                break;
+
+              case "ua":
+                carCaruselCards += `\n\t\t\t\tбензин`;
+                break;
+
+              case "pt":
+                carCaruselCards += `\n\t\t\t\tgasolina`;
+                break;
+
+              case "fr":
+                carCaruselCards += `\n\t\t\t\tessence`;
+                break;
+            } else switch (getLang()) {
+              case "en":
+                carCaruselCards += `\n\t\t\t\tdiesel`;
+                break;
+
+              case "ru":
+                carCaruselCards += `\n\t\t\t\tдизель`;
+                break;
+
+              case "ua":
+                carCaruselCards += `\n\t\t\t\tдизель`;
+                break;
+
+              case "pt":
+                carCaruselCards += `\n\t\t\t\tdiesel`;
+                break;
+
+              case "fr":
+                carCaruselCards += `\n\t\t\t\tdiesel`;
+                break;
             }
-        }
-        function initHeader(data) {
-            let lang = getLang();
-            console.log("Lang = ", lang);
-            console.log(data["header"]["menu"][0][lang]);
+            carCaruselCards += `\n\t\t\t\t</div>\n\t\t\t\t<div class="ca-ptr">\n\t\t\t\t\t<img src="/img/seats.svg" alt="">\n\t\t\t\t\t${item.seats}\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class="price">`;
+            switch (getLang()) {
+              case "en":
+                carCaruselCards += `\n\t\t\tfrom ${item.sprice}€/day`;
+                break;
+
+              case "ru":
+                carCaruselCards += `\n\t\t\tот ${item.sprice}€/день`;
+                break;
+
+              case "ua":
+                carCaruselCards += `\n\t\t\tвід ${item.sprice}€/день`;
+                break;
+
+              case "pt":
+                carCaruselCards += `\n\t\t\tde ${item.sprice}€/dia`;
+                break;
+
+              case "fr":
+                carCaruselCards += `\n\t\t\tdepuis ${item.sprice}€/jour`;
+                break;
+            }
+            carCaruselCards += `\n\t\t\t</div>\n\t\t\t<div class="main_card_button"><a href="car.html#${item.id}">`;
+            switch (getLang()) {
+              case "en":
+                carCaruselCards += `\n\t\t\tmore info`;
+                break;
+
+              case "ru":
+                carCaruselCards += `\n\t\t\tподробнее`;
+                break;
+
+              case "ua":
+                carCaruselCards += `\n\t\t\tДетальніше`;
+                break;
+
+              case "pt":
+                carCaruselCards += `\n\t\t\tmais detalhes`;
+                break;
+
+              case "fr":
+                carCaruselCards += `\n\t\t\tplus de détails`;
+                break;
+            }
+            carCaruselCards += `\n\t\t\t</a></div>\n\t\t</div>\n\t</div> \n\t`;
+            mainCarusel.insertAdjacentHTML("beforeend", carCaruselCards);
         }
         const langselectF = function() {
             let lselHeader = document.querySelectorAll(".langselect__header");
@@ -6500,6 +6776,363 @@ PERFORMANCE OF THIS SOFTWARE.
             }
         };
         langselectF();
+        function buildCalendar() {
+            function makeMonth(block, date) {
+                let nameOfMonth = {
+                    0: {
+                        en: "January",
+                        pt: "Janeiro",
+                        fr: "Janvier",
+                        ua: "Січень",
+                        ru: "Январь"
+                    },
+                    1: {
+                        en: "February",
+                        pt: "Fevereiro",
+                        fr: "Février",
+                        ua: "Лютий",
+                        ru: "Февраль"
+                    },
+                    2: {
+                        en: "March",
+                        pt: "Março",
+                        fr: "Mars",
+                        ua: "Березень",
+                        ru: "Март"
+                    },
+                    3: {
+                        en: "April",
+                        pt: "Abril",
+                        fr: "Avril",
+                        ua: "Квітень",
+                        ru: "Апрель"
+                    },
+                    4: {
+                        en: "May",
+                        pt: "Maio",
+                        fr: "Mai",
+                        ua: "Травень",
+                        ru: "Май"
+                    },
+                    5: {
+                        en: "June",
+                        pt: "Junho",
+                        fr: "Juin",
+                        ua: "Червень",
+                        ru: "Июнь"
+                    },
+                    6: {
+                        en: "July",
+                        pt: "Julho",
+                        fr: "Juillet",
+                        ua: "Липень",
+                        ru: "Июль"
+                    },
+                    7: {
+                        en: "August",
+                        pt: "Agosto",
+                        fr: "Août",
+                        ua: "Серпень",
+                        ru: "Август"
+                    },
+                    8: {
+                        en: "September",
+                        pt: "Setembro",
+                        fr: "Septembre",
+                        ua: "Вересень",
+                        ru: "Сентябрь"
+                    },
+                    9: {
+                        en: "October",
+                        pt: "Outubro",
+                        fr: "Octobre",
+                        ua: "Жовтень",
+                        ru: "Октябрь"
+                    },
+                    10: {
+                        en: "November",
+                        pt: "Novembro",
+                        fr: "Novembre",
+                        ua: "Листопад",
+                        ru: "Ноябрь"
+                    },
+                    11: {
+                        en: "December",
+                        pt: "Dezembro",
+                        fr: "Décembre",
+                        ua: "Грудень",
+                        ru: "Декабрь"
+                    }
+                };
+                let short2NameOfWeekday = {
+                    0: {
+                        en: "Su",
+                        pt: "Do",
+                        fr: "Di",
+                        ua: "Нд",
+                        ru: "Вс"
+                    },
+                    1: {
+                        en: "Mo",
+                        pt: "2ª",
+                        fr: "Lu",
+                        ua: "Пн",
+                        ru: "Пн"
+                    },
+                    2: {
+                        en: "Tu",
+                        pt: "3ª",
+                        fr: "Ma",
+                        ua: "Вт",
+                        ru: "Вт"
+                    },
+                    3: {
+                        en: "We",
+                        pt: "4ª",
+                        fr: "Me",
+                        ua: "Ср",
+                        ru: "Ср"
+                    },
+                    4: {
+                        en: "Th",
+                        pt: "5ª",
+                        fr: "Je",
+                        ua: "Чт",
+                        ru: "Чт"
+                    },
+                    5: {
+                        en: "Fr",
+                        pt: "6ª",
+                        fr: "Ve",
+                        ua: "Пт",
+                        ru: "Пт"
+                    },
+                    6: {
+                        en: "Sa",
+                        pt: "Sá",
+                        fr: "Sa",
+                        ua: "Сб",
+                        ru: "Сб"
+                    }
+                };
+                function makeControls(mo, yr) {
+                    let str = `\n\t\t\t\t<div class="ical__control">\n\t\t\t\t\t<div class="ical__control_prev-next">«</div>\n\t\t\t\t\t<div class="ical__control_mbutton"> ${mo} <span>${yr}</span></div>\n\t\t\t\t\t<div class="ical__control_prev-next no-control">»</div>\n\t\t\t\t</div>`;
+                    return str;
+                }
+                function loadCalendarData(date) {
+                    let today = new Date;
+                    let firtsWeekDayOfMonth = new Date(nYear, nMonth, 1).getDay();
+                    let lastDateOfMonth = new Date(nYear, nMonth + 1, 0).getDate();
+                    new Date(nYear, nMonth, lastDateOfMonth).getDay();
+                    gapi.load("client:auth2", (() => {
+                        gapi.client.init({
+                            clientId: "11489219594-5u6n6jn39sns24sq7vn2oer2m86a75jm.apps.googleusercontent.com",
+                            scope: "https://www.googleapis.com/auth/calendar"
+                        }).then((() => {
+                            if (!gapi.auth2.getAuthInstance().isSignedIn.get()) gapi.auth2.getAuthInstance().signIn();
+                        }));
+                    }));
+                    gapi.client.calendar.events.list({
+                        calendarId: "primary",
+                        timeMin: (new Date).toISOString(),
+                        showDeleted: false,
+                        singleEvents: true,
+                        maxResults: 10,
+                        orderBy: "startTime"
+                    }).then((response => {
+                        const events = response.result.items;
+                        console.log("Events:", events);
+                    }));
+                    if (today.getMonth() === date.getMonth()) today = date.getDate();
+                    let nd = 1;
+                    var r = {};
+                    for (let i = 0; i < 42; i++) {
+                        r[i] = {
+                            dayFlag: "",
+                            numFlag: "",
+                            priceFlag: "",
+                            price: "",
+                            num: ""
+                        };
+                        if (i >= firtsWeekDayOfMonth && nd <= lastDateOfMonth) {
+                            r[i]["num"] = nd;
+                            nd++;
+                            if (nd < today + 2) {
+                                r[i]["dayFlag"] = " in-active-day";
+                                r[i]["priceFlag"] = " in-active-day";
+                                r[i]["numFlag"] = " in-active-day";
+                                r[i]["price"] = "-";
+                            } else {
+                                r[i]["dayFlag"] = " active-day";
+                                r[i]["priceFlag"] = " active-day";
+                                r[i]["numFlag"] = " active-day";
+                                r[i]["price"] = "50";
+                            }
+                        } else r[i]["dayFlag"] = " noday";
+                    }
+                    return r;
+                }
+                let nMonth = date.getMonth();
+                let sMonth = nameOfMonth[nMonth][cLang];
+                let nYear = date.getFullYear();
+                var cdCal = loadCalendarData(date);
+                let str = ``;
+                str += makeControls(sMonth, nYear);
+                str += `\n\t\t\t<div class="ical__table">\n\t\t\t\t<div class="ical__itable_wday">`;
+                for (let wday = 0; wday < 7; wday++) str += `\n\t\t\t\t\t<div class="ical__itable_wday-label">${short2NameOfWeekday[wday][cLang]}</div>`;
+                str += `\n\t\t\t\t</div>`;
+                let iDay = 0;
+                for (let wnum = 0; wnum < 6; wnum++) {
+                    str += `\n\t\t\t\t\t\x3c!-- week #${wnum + 1}--\x3e\n\t\t\t\t\t<div class="ical__itable_week">`;
+                    for (let wday = 0; wday < 7; wday++) {
+                        str += `\n\t\t\t\t\t\t\x3c!-- day Monday of week #${wnum + 1}} --\x3e\n\t\t\t\t\t\t<div class="ical__itable_day${cdCal[iDay]["dayFlag"]}">\n\t\t\t\t\t\t\t<div class="ical__itable_day-price${cdCal[iDay]["priceFlag"]}">${cdCal[iDay]["price"]}€</div>\n\t\t\t\t\t\t\t<div class="ical__itable_day-num${cdCal[iDay]["numFlag"]}">${cdCal[iDay]["num"]}</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t`;
+                        iDay++;
+                    }
+                    str += `\n\t\t\t\t\t</div>`;
+                }
+                str += `\n\t\t\t</div>`;
+                block.insertAdjacentHTML("beforeend", str);
+            }
+            let calBlock = document.body.querySelector(".interval-calendar");
+            let oCurrMonth = new Date;
+            let oNextMonth = new Date(oCurrMonth.getFullYear(), oCurrMonth.getMonth() + 1, 1);
+            calBlock.innerHTML = "";
+            makeMonth(calBlock, oCurrMonth);
+            makeMonth(calBlock, oNextMonth);
+        }
+        function buildCarDetailPage(item) {
+            function llang(obj) {
+                return obj[cLang];
+            }
+            header_block_text.insertAdjacentHTML("beforeend", `<h1>${item.name}</h1>`);
+            document.querySelector(".langselect__body").querySelectorAll("a").forEach((link => {
+                link.href += location.hash;
+                console.log(link);
+            }));
+            car_picture.insertAdjacentHTML("beforeend", `<img src="/img/cars/car${item.id}/front.jpg" width="500px;" alt="${item.name} Preview Photo">`);
+            function addMainTableRow(val, uline, labelmap) {
+                let str = `<div class="car__cdtable_cell `;
+                str += uline ? `gray-underline` : `gray`;
+                str += `">` + llang(labelmap);
+                str += `:</div><div class="car__cdtable_cell `;
+                str += uline ? `underline` : ``;
+                str += `">${val}</div>`;
+                return str;
+            }
+            let mainTable = ``;
+            mainTable += addMainTableRow(item.seats, 1, {
+                en: "Seats",
+                pt: "Seats",
+                fr: "Seats",
+                ua: "Кількість сидінь",
+                ru: "Количество сидений"
+            });
+            mainTable += addMainTableRow(item.doors, 1, {
+                en: "Doors",
+                pt: "Doors",
+                fr: "Doors",
+                ua: "Кількість сидінь",
+                ru: "Количество дверей"
+            });
+            mainTable += addMainTableRow(item.gas, 1, {
+                en: "Gas",
+                pt: "Gas",
+                fr: "Gas",
+                ua: "Паливо",
+                ru: "Топлево"
+            });
+            mainTable += addMainTableRow(item.vol, 1, {
+                en: "Volumne",
+                pt: "Volumne",
+                fr: "Volumne",
+                ua: "Об'ем двигуна",
+                ru: "Объём двигателя"
+            });
+            mainTable += addMainTableRow(item.kpp, 0, {
+                en: "Transmission",
+                pt: "Transmission",
+                fr: "Transmission",
+                ua: "Трансмісія",
+                ru: "Трансмиссия"
+            });
+            car_cdtable_main.insertAdjacentHTML("beforeend", mainTable);
+            function addOption(val, labelmap) {
+                return val ? `<div class="car__cdtable_cell">${llang(labelmap)}</div>` : "";
+            }
+            let otherOptions = ``;
+            otherOptions += addOption(item.seqf, {
+                en: "Sequrity Alarm",
+                pt: "[TBD]",
+                fr: "[TBD]",
+                ua: "[TBD]",
+                ru: "сигнализация"
+            });
+            otherOptions += addOption(item.btf, {
+                en: "Bluetooth",
+                pt: "Bluetooth",
+                fr: "Bluetooth",
+                ua: "Bluetooth",
+                ru: "Bluetooth"
+            });
+            otherOptions += addOption(item.ccf, {
+                en: "Cruise Control",
+                pt: "[TBD]",
+                fr: "[TBD]",
+                ua: "[TBD]",
+                ru: "круиз контроль"
+            });
+            otherOptions += addOption(item.ssf, {
+                en: "Start-stop system",
+                pt: "[TBD]",
+                fr: "[TBD]",
+                ua: "[TBD]",
+                ru: "система start-stop"
+            });
+            otherOptions += addOption(item.clockf, {
+                en: "Central look",
+                pt: "[TBD]",
+                fr: "[TBD]",
+                ua: "[TBD]",
+                ru: "центральный замок"
+            });
+            otherOptions += addOption(item.mmf, {
+                en: "Mirror management",
+                pt: "[TBD]",
+                fr: "[TBD]",
+                ua: "электродзеркала",
+                ru: "электро зеркала"
+            });
+            otherOptions += addOption(item.apf, {
+                en: "Apple CarPay",
+                pt: "Apple CarPay",
+                fr: "Apple CarPay",
+                ua: "Apple CarPay",
+                ru: "Apple CarPay"
+            });
+            otherOptions += addOption(item.acf, {
+                en: "Climat control",
+                pt: "[TBD]",
+                fr: "[TBD]",
+                ua: "[TBD]",
+                ru: "кондиционер"
+            });
+            otherOptions += addOption(item.swf, {
+                en: "",
+                pt: "",
+                fr: "",
+                ua: "",
+                ru: ""
+            });
+            otherOptions += addOption(item.pmf, {
+                en: "",
+                pt: "",
+                fr: "",
+                ua: "",
+                ru: "мониторинг давления в шинах"
+            });
+            car_cdtable_others.insertAdjacentHTML("beforeend", otherOptions);
+            buildCalendar();
+        }
         window["FLS"] = true;
         isWebp();
         addTouchClass();

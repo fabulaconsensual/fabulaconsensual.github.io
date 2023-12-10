@@ -475,6 +475,10 @@ h6 {
   padding-top: 5.625rem;
 }
 
+.hero__container .hero-left-block .hero-text-block {
+  min-height: 13.8125rem;
+}
+
 .hero-button {
   position: relative;
   top: 0rem;
@@ -960,6 +964,9 @@ h6 {
 }
 
 .car__picture {
+  max-width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
   -webkit-box-flex: 0;
       -ms-flex: 0 1 auto;
           flex: 0 1 auto;
@@ -1005,6 +1012,10 @@ h6 {
           flex-direction: row;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
+}
+
+.car__cdtable_others .car__cdtable_cell {
+  padding-bottom: 0.9375rem;
 }
 
 .car__cdtable_cell {
@@ -1058,6 +1069,9 @@ h6 {
   gap: 0.625rem;
   font-size: 13.5px;
   font-weight: 400;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: end;
 }
 
 .car__booking-form_main-long {
@@ -1105,6 +1119,9 @@ h6 {
 
 .car__booking-form_button {
   height: 5.4375rem;
+  margin: 0 auto;
+  display: block;
+  width: 100%;
   background-color: #C20E0E;
   border-radius: 0.9375rem;
   font-size: 1.125rem;
@@ -1220,9 +1237,14 @@ h6 {
   text-align: center;
   font-size: 29.731px;
   font-weight: 600;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  padding-top: 0.3125rem;
 }
 
 .ical__control_mbutton {
+  height: 46.455px;
   -webkit-box-flex: 1;
       -ms-flex: 1 1 auto;
           flex: 1 1 auto;
@@ -1235,6 +1257,11 @@ h6 {
   text-align: center;
   font-size: 13.007px;
   font-weight: 700;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .ical__control_mbutton span {
@@ -1527,7 +1554,7 @@ h6 {
   display: -ms-flexbox;
   display: flex;
   width: 780px;
-  font-size: 2rem;
+  font-size: 1.8125rem;
   font-weight: 300;
   border-radius: 30px;
   max-height: 6.5625rem;
@@ -1687,10 +1714,13 @@ h6 {
   border-radius: 4px;
   border: 1px solid #DCDCE4;
   background: var(--White, #FFF);
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
 }
 
 .contact-block .contact-block__container .contact__form .contact__form-block .contact__form-text {
   height: 250px;
+  padding: 0.625rem;
 }
 
 .contact-block .contact-block__container .contact__form .contact__form-block span {
@@ -2956,6 +2986,14 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
   .header-block__text h4 {
     line-height: 0.0875rem;
   }
+
+  .car__container {
+    gap: 4.1875rem;
+  }
+
+  .car__cdtable_cell {
+    font-size: 1.125rem;
+  }
 }
 
 @media (min-width: 70em) {
@@ -3096,6 +3134,10 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
   .contact-block .contact-block__container .contacts-map .contacts {
     font-size: 22px;
   }
+
+  .contact-block .contact-block__container .contacts-map .map {
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 1100px) and (max-width: 48.75em) {
@@ -3168,7 +3210,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
   }
 
   .discount-block {
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
   }
 
   .discount-block {
@@ -3195,6 +3237,32 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
 
   .contact-block .contact-block__container .contact__form .contact__form-button {
     margin-right: 56.25rem;
+  }
+}
+
+@media (max-width: 45em) {
+  .car__container {
+    gap: 0.75rem;
+  }
+
+  .car__cdtable_cell {
+    font-size: 0.9375rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .car__container {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 720px) and (max-width: 22.5em) {
+  .car__cdtable_cell {
+    font-size: 0.9375rem;
   }
 }
 
@@ -4501,6 +4569,52 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
 }
 }
 
+@media (min-width: 45em) and (max-width: 71.875em) {
+@supports (gap: clamp( 0.75rem , -5.0058139535rem  +  12.7906976744vw , 4.1875rem )) {
+    .car__container {
+      gap: clamp( 0.75rem , -5.0058139535rem  +  12.7906976744vw , 4.1875rem );
+    }
+}
+
+@supports not (gap: clamp( 0.75rem , -5.0058139535rem  +  12.7906976744vw , 4.1875rem )) {
+    .car__container {
+      gap: calc(0.75rem + 3.4375 * (100vw - 45rem) / 26.875);
+    }
+}
+
+@supports (font-size: clamp( 0.9375rem , 0.6235465116rem  +  0.6976744186vw , 1.125rem )) {
+    .car__cdtable_cell {
+      font-size: clamp( 0.9375rem , 0.6235465116rem  +  0.6976744186vw , 1.125rem );
+    }
+}
+
+@supports not (font-size: clamp( 0.9375rem , 0.6235465116rem  +  0.6976744186vw , 1.125rem )) {
+    .car__cdtable_cell {
+      font-size: calc(0.9375rem + 0.1875 * (100vw - 45rem) / 26.875);
+    }
+}
+}
+
+@media (max-width: 720px) and (min-width: 45em) {
+  .car__cdtable_cell {
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 720px) and (min-width: 22.5em) and (max-width: 45em) {
+@supports (font-size: clamp( 0.9375rem , 0.75rem  +  0.8333333333vw , 1.125rem )) {
+    .car__cdtable_cell {
+      font-size: clamp( 0.9375rem , 0.75rem  +  0.8333333333vw , 1.125rem );
+    }
+}
+
+@supports not (font-size: clamp( 0.9375rem , 0.75rem  +  0.8333333333vw , 1.125rem )) {
+    .car__cdtable_cell {
+      font-size: calc(0.9375rem + 0.1875 * (100vw - 22.5rem) / 22.5);
+    }
+}
+}
+
 @media (min-width: 43.75em) and (max-width: 70em) {
 @supports (width: clamp( 20.625rem , -0.2083333333rem  +  47.619047619vw , 33.125rem )) {
     .car-block__row_item {
@@ -5386,7 +5500,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
   }
 
   .discount-block {
-    font-size: 2rem;
+    font-size: 1.8125rem;
   }
 
   .discount-block {
@@ -5407,15 +5521,15 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
     }
 }
 
-@supports (font-size: clamp( 0.8125rem , -0.1332964602rem  +  4.203539823vw , 2rem )) {
+@supports (font-size: clamp( 0.75rem , -0.0962389381rem  +  3.7610619469vw , 1.8125rem )) {
     .discount-block {
-      font-size: clamp( 0.8125rem , -0.1332964602rem  +  4.203539823vw , 2rem );
+      font-size: clamp( 0.75rem , -0.0962389381rem  +  3.7610619469vw , 1.8125rem );
     }
 }
 
-@supports not (font-size: clamp( 0.8125rem , -0.1332964602rem  +  4.203539823vw , 2rem )) {
+@supports not (font-size: clamp( 0.75rem , -0.0962389381rem  +  3.7610619469vw , 1.8125rem )) {
     .discount-block {
-      font-size: calc(0.8125rem + 1.1875 * (100vw - 22.5rem) / 28.25);
+      font-size: calc(0.75rem + 1.0625 * (100vw - 22.5rem) / 28.25);
     }
 }
 

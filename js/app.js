@@ -6924,25 +6924,6 @@ PERFORMANCE OF THIS SOFTWARE.
                     let firtsWeekDayOfMonth = new Date(nYear, nMonth, 1).getDay();
                     let lastDateOfMonth = new Date(nYear, nMonth + 1, 0).getDate();
                     new Date(nYear, nMonth, lastDateOfMonth).getDay();
-                    gapi.load("client:auth2", (() => {
-                        gapi.client.init({
-                            clientId: "11489219594-5u6n6jn39sns24sq7vn2oer2m86a75jm.apps.googleusercontent.com",
-                            scope: "https://www.googleapis.com/auth/calendar"
-                        }).then((() => {
-                            if (!gapi.auth2.getAuthInstance().isSignedIn.get()) gapi.auth2.getAuthInstance().signIn();
-                        }));
-                    }));
-                    gapi.client.calendar.events.list({
-                        calendarId: "primary",
-                        timeMin: (new Date).toISOString(),
-                        showDeleted: false,
-                        singleEvents: true,
-                        maxResults: 10,
-                        orderBy: "startTime"
-                    }).then((response => {
-                        const events = response.result.items;
-                        console.log("Events:", events);
-                    }));
                     if (today.getMonth() === date.getMonth()) today = date.getDate();
                     let nd = 1;
                     var r = {};

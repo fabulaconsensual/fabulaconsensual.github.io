@@ -136,10 +136,22 @@
 							<div class="car__booking-form_additional">
 								<div class="car__booking-form_additional-checkgroup">
 									<h4>Дополнительные услуги:</h4>
-									<div class="car-add-checkbox">Детское кресло (от 1 мес. до 2 лет) €2,5/день</div>
-									<div class="car-add-checkbox">Детское кресло (от 2 до 4 лет) €7,5/день</div>
-									<div class="car-add-checkbox">Бустер €2,5/день</div>
-									<div class="car-add-checkbox">Услуги водителя €5/час (не менее 8 часов - €40/день)</div>
+									<div class="car-add-checkbox">
+										<input type="checkbox" name="baby-chair-small" value="include">
+										Детское кресло (от 1 мес. до 2 лет) €2,5/день
+									</div>
+									<div class="car-add-checkbox">
+										<input type="checkbox" name="baby-chair-big" value="include">
+										Детское кресло (от 2 до 4 лет) €7,5/день
+									</div>
+									<div class="car-add-checkbox">
+										<input type="checkbox" name="booster" value="include">
+										Бустер €2,5/день
+									</div>
+									<div class="car-add-checkbox">
+										<input type="checkbox" name="driver" value="include">
+										Услуги водителя €5/час (не менее 8 часов - €40/день)
+									</div>
 								</div>
 								<div class="car__booking-form_additional-calc">
 									<div class="car-add-calc-field">
@@ -165,7 +177,7 @@
 							</button>
 						</form>
 					</div>
-					<div class="car__booking-calendar">
+					<div data-da=".car__booking-form_main, 720" class="car__booking-calendar">
 						<div class="interval-calendar">
 							<!-- Month #1 -->
 							<div class="ical__month">
@@ -642,7 +654,7 @@
 					<li class="footer-menu__item"><a href="/pt/cars.html" class="menu__link">aluguer</a></li>-->
 							<li class="footer-menu__item"><a href="/pt/faq.html" class="menu__link">faq</a></li>
 							<li class="footer-menu__item"><a href="/pt/contacts.html" class="menu__link">contactos</a></li>
-							<li class="footer-menu__item"><a href="#" class="menu__link">acordos e restrições</a></li>
+							<li class="footer-menu__item"><a href="/pt/gg.html" class="menu__link">acordos e restrições</a></li>
 						</ul>
 					</nav>
 
@@ -655,6 +667,7 @@
 
 			</div>
 		</footer>
+
 	</div>
 	<script src="/js/app.min.js"></script>
 </body>

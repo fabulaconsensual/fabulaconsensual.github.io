@@ -6416,7 +6416,23 @@ PERFORMANCE OF THIS SOFTWARE.
                     if (itemN < 5) {
                         if (car_park_up) buildCarParkUpBlock(item);
                     } else if (car_park_down) buildCarParkDownBlock(item);
-                    if (car_picture && item.id == location.hash.slice(1)) buildCarDetailPage(item);
+                    if (car_picture && item.id == location.hash.slice(1)) {
+                        const calendarId = "fabula.consensual@gmail.com";
+                        const tomorrow = new Date;
+                        tomorrow.setDate(tomorrow.getDate() + 1);
+                        const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events?key=AIzaSyA6f4RWtu1fs-VtJQTLOpjJ76MkQqonapY&timeMin=${tomorrow.toISOString()}`;
+                        let events = [];
+                        fetch(url).then((response => response.json())).then((data => {
+                            events = data.items || [];
+                            if (events.length > 0) {
+                                console.log("Upcoming events:");
+                                console.log(events);
+                                buildCarDetailPage(item, events);
+                            } else console.log("No upcoming events found.");
+                        })).catch((error => {
+                            console.error("Error fetching events:", error);
+                        }));
+                    }
                     itemN += 1;
                 }));
                 if (itemN % 2 === 0) if (car_park_down) buildCarParkOddBlock();
@@ -6776,8 +6792,8 @@ PERFORMANCE OF THIS SOFTWARE.
             }
         };
         langselectF();
-        function buildCalendar() {
-            function makeMonth(block, date) {
+        function buildCalendar(item, events) {
+            function makeMonth(block, date, item, events) {
                 let nameOfMonth = {
                     0: {
                         en: "January",
@@ -6919,21 +6935,35 @@ PERFORMANCE OF THIS SOFTWARE.
                     let str = `\n\t\t\t\t<div class="ical__control">\n\t\t\t\t\t<div class="ical__control_prev-next">«</div>\n\t\t\t\t\t<div class="ical__control_mbutton"> ${mo} <span>${yr}</span></div>\n\t\t\t\t\t<div class="ical__control_prev-next no-control">»</div>\n\t\t\t\t</div>`;
                     return str;
                 }
-                function loadCalendarData(date) {
+                function loadCalendarData(date, item, events) {
                     let today = new Date;
-                    let firtsWeekDayOfMonth = new Date(nYear, nMonth, 1).getDay();
-                    let lastDateOfMonth = new Date(nYear, nMonth + 1, 0).getDate();
+                    let fDM = new Date(nYear, nMonth, 1);
+                    let firtsWeekDayOfMonth = fDM.getDay();
+                    let lDM = new Date(nYear, nMonth + 1, 0);
+                    let fnDM = new Date(nYear, nMonth + 1, 1);
+                    let lastDateOfMonth = lDM.getDate();
                     new Date(nYear, nMonth, lastDateOfMonth).getDay();
+                    let sIHS = new Date(nYear, 0, 1);
+                    let fIHS = new Date(nYear, 0, 10);
+                    let sIIHS = new Date(nYear, 5, 1);
+                    let fIIHS = new Date(nYear, 8, 15);
+                    let sIIIHS = new Date(nYear, 11, 20);
+                    let fIIIHS = new Date(nYear, 11, 31);
+                    let sILS = new Date(nYear, 10, 1);
+                    let fILS = new Date(nYear, 11, 19);
+                    let sIILS = new Date(nYear, 0, 11);
+                    let fIILS = new Date(nYear, 2, 31);
                     if (today.getMonth() === date.getMonth()) today = date.getDate();
                     let nd = 1;
                     var r = {};
+                    let cdate = new Date(nYear, nMonth, 1);
                     for (let i = 0; i < 42; i++) {
                         r[i] = {
                             dayFlag: "",
                             numFlag: "",
                             priceFlag: "",
                             price: "",
-                            num: ""
+                            numё: ""
                         };
                         if (i >= firtsWeekDayOfMonth && nd <= lastDateOfMonth) {
                             r[i]["num"] = nd;
@@ -6947,16 +6977,54 @@ PERFORMANCE OF THIS SOFTWARE.
                                 r[i]["dayFlag"] = " active-day";
                                 r[i]["priceFlag"] = " active-day";
                                 r[i]["numFlag"] = " active-day";
-                                r[i]["price"] = "50";
+                                let price = +item.sprice;
+                                if (sIHS <= cdate && cdate <= fIHS || sIIHS <= cdate && cdate <= fIIHS || sIIIHS <= cdate && cdate <= fIIIHS) price += 5;
+                                if (sILS <= cdate && cdate <= fILS || sIILS <= cdate && cdate <= fIILS) price -= 5;
+                                cdate.setDate(cdate.getDate() + 1);
+                                r[i]["price"] = `${price}`;
                             }
                         } else r[i]["dayFlag"] = " noday";
+                    }
+                    for (let i = 0; i < events.length; i++) {
+                        const event = events[i];
+                        const when = event.start.dateTime || event.start.date;
+                        console.log("     ::: Event #", i);
+                        console.log(`${event.summary} (${when})`);
+                        const ncars = event.summary.slice(1, 2);
+                        console.log("         -- start :: ", event.start);
+                        console.log("         --   end :: ", event.end);
+                        if (ncars === location.hash.slice(1)) {
+                            let sdate = new Date(event.start.dateTime);
+                            let sday = sdate.getDate();
+                            let fdate = new Date(event.end.dateTime);
+                            let fday = fdate.getDate();
+                            if (sdate.getMonth() === date.getMonth()) {
+                                sday = sdate.getDate();
+                                fday = lastDateOfMonth;
+                            } else if (sdate < date) {
+                                sday = 1;
+                                fday = fdate.getDate();
+                            }
+                            let ddstart = date.getMonth() === sdate.getMonth() ? sdate : fnDM;
+                            if (sdate < date && fdate >= date) ddstart = fDM;
+                            for (let dd = ddstart; dd.getMonth() === date.getMonth() && dd < fdate && dd <= fnDM; dd.setDate(dd.getDate() + 1)) {
+                                console.log(dd);
+                                let dindex = dd.getDate() + firtsWeekDayOfMonth - 1;
+                                console.log("dindex = ", dindex);
+                                console.log("day = ", dd.getDate());
+                                r[dindex]["dayFlag"] = " in-active-day";
+                                r[dindex]["priceFlag"] = " in-active-day";
+                                r[dindex]["numFlag"] = " in-active-day";
+                                r[dindex]["price"] = "-";
+                            }
+                        }
                     }
                     return r;
                 }
                 let nMonth = date.getMonth();
                 let sMonth = nameOfMonth[nMonth][cLang];
                 let nYear = date.getFullYear();
-                var cdCal = loadCalendarData(date);
+                var cdCal = loadCalendarData(date, item, events);
                 let str = ``;
                 str += makeControls(sMonth, nYear);
                 str += `\n\t\t\t<div class="ical__table">\n\t\t\t\t<div class="ical__itable_wday">`;
@@ -6978,10 +7046,10 @@ PERFORMANCE OF THIS SOFTWARE.
             let oCurrMonth = new Date;
             let oNextMonth = new Date(oCurrMonth.getFullYear(), oCurrMonth.getMonth() + 1, 1);
             calBlock.innerHTML = "";
-            makeMonth(calBlock, oCurrMonth);
-            makeMonth(calBlock, oNextMonth);
+            makeMonth(calBlock, oCurrMonth, item, events);
+            makeMonth(calBlock, oNextMonth, item, events);
         }
-        function buildCarDetailPage(item) {
+        function buildCarDetailPage(item, events) {
             function llang(obj) {
                 return obj[cLang];
             }
@@ -7038,7 +7106,7 @@ PERFORMANCE OF THIS SOFTWARE.
             });
             car_cdtable_main.insertAdjacentHTML("beforeend", mainTable);
             function addOption(val, labelmap) {
-                return val ? `<div class="car__cdtable_cell">${llang(labelmap)}</div>` : "";
+                return val ? `<div class="car__cdtable_cell">• ${llang(labelmap)}</div>` : "";
             }
             let otherOptions = ``;
             otherOptions += addOption(item.seqf, {
@@ -7112,7 +7180,7 @@ PERFORMANCE OF THIS SOFTWARE.
                 ru: "мониторинг давления в шинах"
             });
             car_cdtable_others.insertAdjacentHTML("beforeend", otherOptions);
-            buildCalendar();
+            buildCalendar(item, events);
         }
         window["FLS"] = true;
         isWebp();

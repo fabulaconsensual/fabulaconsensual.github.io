@@ -109,47 +109,55 @@
 						<form action="" class="car__booking-form_form">
 							<div class="car__booking-form_main">
 								<div class="car__booking-form_main-long">
-									Место подачи автомобиля
-									<input class="car__inputfield" type="text" name="" value="" />
+									Место подачи автомобиля:
+									<select class="car__inputfield" id="delivery-location">
+										<option value="aeroport">Аэропорт</option>
+										<option value="Funchal">Фуншал</option>
+										<option value="Forum">ТЦ Форум</option>
+									</select>
 								</div>
 								<div class="car__booking-form_main-long">
 									Место cдачи автомобиля
-									<input class="car__inputfield" type="text" name="" value="" />
+									<select class="car__inputfield" id="dropoff-location">
+										<option value="aeroport">Аэропорт</option>
+										<option value="Funchal">Фуншал</option>
+										<option value="Forum">ТЦ Форум</option>
+									</select>
 								</div>
 								<div class="car__booking-form_main-short">
 									Дата подачи
-									<input class="car__inputfield" type="text" name="" value="" />
+									<input class="car__inputfield" type="text" id="delivery-date" value="" readonly />
 								</div>
 								<div class="car__booking-form_main-short">
 									Время подачи
-									<input class="car__inputfield" type="text" name="" value="" />
+									<input class="car__inputfield" type="time" id="delivery-time" value="" />
 								</div>
 								<div class="car__booking-form_main-short">
 									Дата cдачи
-									<input class="car__inputfield" type="text" name="" value="" />
+									<input class="car__inputfield" type="text" id="dropoff-date" value="" readonly />
 								</div>
 								<div class="car__booking-form_main-short">
 									Время cдачи
-									<input class="car__inputfield" type="text" name="" value="" />
+									<input class="car__inputfield" type="time" id="dropoff-time" value="" />
 								</div>
 							</div>
 							<div class="car__booking-form_additional">
 								<div class="car__booking-form_additional-checkgroup">
 									<h4>Дополнительные услуги:</h4>
 									<div class="car-add-checkbox">
-										<input type="checkbox" name="baby-chair-small" value="include">
+										<input class="checkbox" type="checkbox" name="baby-chair-small" value="include">
 										Детское кресло (от 1 мес. до 2 лет) €2,5/день
 									</div>
 									<div class="car-add-checkbox">
-										<input type="checkbox" name="baby-chair-big" value="include">
+										<input class="checkbox" type="checkbox" name="baby-chair-big" value="include">
 										Детское кресло (от 2 до 4 лет) €7,5/день
 									</div>
 									<div class="car-add-checkbox">
-										<input type="checkbox" name="booster" value="include">
+										<input class="checkbox" type="checkbox" name="booster" value="include">
 										Бустер €2,5/день
 									</div>
 									<div class="car-add-checkbox">
-										<input type="checkbox" name="driver" value="include">
+										<input class="checkbox" type="checkbox" name="driver" value="include">
 										Услуги водителя €5/час (не менее 8 часов - €40/день)
 									</div>
 								</div>
@@ -160,7 +168,7 @@
 									</div>
 									<div class="car-add-calc-field">
 										<div class="car-add-calc-field_label">Возвратный депозит: </div>
-										<div class="car-add-calc-field_value" id="rent-deposit">0 €</div>
+										<div class="car-add-calc-field_value" id="rent-deposit">500 €</div>
 									</div>
 									<div class="car-add-calc-field">
 										<div class="car-add-calc-field_label">Страховка:</div>
@@ -170,10 +178,13 @@
 										<div class="car-add-calc-field_label total-label">Итого:</div>
 										<div class="car-add-calc-field_value total-amount" id="rent-sum">0 €</div>
 									</div>
+									<div class="car-add-calc-field">
+										*расшифровка суммы будет предоставлена перед бронированием
+									</div>
 								</div>
 							</div>
 							<button class="car__booking-form_button">
-								бронировать
+								<a href="payment.html#">бронировать</a>
 							</button>
 						</form>
 					</div>

@@ -18,17 +18,17 @@
 			<div class="header__container">
 
 				<div class="header__logo">
-					<a href="/ru/home.html"><img src="../img/logo.png" alt="Logo"></a>
+					<a href="/fr/home.html"><img src="../img/logo.png" alt="Logo"></a>
 				</div>
 				<div class="header__menu menu">
 					<button type="button" class="menu__icon icon-menu"><span></span></button>
 
 					<nav class="menu__body">
 						<ul class="menu__list">
-							<li class="menu__item"><a href="/ru/home.html" data-goto=".home" class="menu__link"><img src="../img/home-icon.svg" alt="home"></a></li>
-							<li class="menu__item"><a href="/ru/cars.html" data-goto=".rentals" class="menu__link"><span class="red-text">louer</span></a></li>
-							<li class="menu__item"><a href="/ru/faq.html" data-goto=".faq" class="menu__link">faq</a></li>
-							<li class="menu__item"><a href="/ru/contacts.html" data-goto=".footer" class="menu__link">contacts</a></li>
+							<li class="menu__item"><a href="/fr/home.html" data-goto=".home" class="menu__link"><img src="../img/home-icon.svg" alt="home"></a></li>
+							<li class="menu__item"><a href="/fr/cars.html" data-goto=".rentals" class="menu__link"><span class="red-text">louer</span></a></li>
+							<li class="menu__item"><a href="/fr/faq.html" data-goto=".faq" class="menu__link">faq</a></li>
+							<li class="menu__item"><a href="/fr/contacts.html" data-goto=".footer" class="menu__link">contacts</a></li>
 						</ul>
 					</nav>
 				</div>
@@ -56,12 +56,12 @@
 
 					<div class="lang-block">
 						<div class="langselect">
-							<button class="langselect__header"><img class="langselect__current" src="../img/ru-lang.png" width="100%" alt="language"></button>
+							<button class="langselect__header"><img class="langselect__current" src="../img/fr-lang.png" width="100%" alt="language"></button>
 							<div class="langselect__body">
 								<div class="langselect__item"><a href="/en/car.html"><img src="../img/en-lang.png" width="100% alt=" en"></a></div>
 								<div class="langselect__item"><a href="/pt/car.html"><img src="../img/pt-lang.png" width="100% alt=" pt"></a></div>
 								<div class="langselect__item"><a href="/ua/car.html"><img src="../img/ua-lang.png" width="100% alt=" ua"></a></div>
-								<div class="langselect__item"><a href="/fr/car.html"><img src="../img/fr-lang.png" width="100% alt=" fr"></a></div>
+								<div class="langselect__item"><a href="/ru/car.html"><img src="../img/ru-lang.png" width="100% alt=" ru"></a></div>
 							</div>
 						</div>
 					</div>
@@ -103,79 +103,181 @@
 			<section class="car__detail">
 				<div class="car__container">
 					<div class="car__booking-form">
+
+
 						<div class="car__booking-form_title">
-							Бронирование автомобиля
+							Réservation de voiture
 						</div>
 						<form action="" class="car__booking-form_form">
 							<div class="car__booking-form_main">
 								<div class="car__booking-form_main-long">
-									Место подачи автомобиля
-									<input class="car__inputfield" type="text" name="" value="" />
+									Lieu de livraison de la voiture:
+									<select class="car__inputfield_places" id="delivery-location">
+										<option value="aeroport">Forum Centre commercial</option>
+										<option value="Funchal">Aéroport</option>
+										<option value="Forum">Funchal</option>
+									</select>
 								</div>
 								<div class="car__booking-form_main-long">
-									Место cдачи автомобиля
-									<input class="car__inputfield" type="text" name="" value="" />
+									Lieu de dépôt des voitures:
+									<select class="car__inputfield_places" id="dropoff-location">
+										<option value="aeroport">Forum Centre commercial</option>
+										<option value="Funchal">Aéroport</option>
+										<option value="Forum">Funchal</option>
+									</select>
 								</div>
 								<div class="car__booking-form_main-short">
-									Дата подачи
-									<input class="car__inputfield" type="text" name="" value="" />
+									La date de livraison
+									<input class="car__inputfield" type="text" id="delivery-date" value="" readonly />
 								</div>
 								<div class="car__booking-form_main-short">
-									Время подачи
-									<input class="car__inputfield" type="text" name="" value="" />
+									Délai de livraison
+									<input class="car__inputfield" type="time" id="delivery-time" value="" />
 								</div>
 								<div class="car__booking-form_main-short">
-									Дата cдачи
-									<input class="car__inputfield" type="text" name="" value="" />
+									Date de retour
+									<input class="car__inputfield" type="text" id="dropoff-date" value="" readonly />
 								</div>
 								<div class="car__booking-form_main-short">
-									Время cдачи
-									<input class="car__inputfield" type="text" name="" value="" />
+									Heure de retour
+									<input class="car__inputfield" type="time" id="dropoff-time" value="" />
 								</div>
 							</div>
 							<div class="car__booking-form_additional">
 								<div class="car__booking-form_additional-checkgroup">
-									<h4>Дополнительные услуги:</h4>
-									<div class="car-add-checkbox">
-										<input type="checkbox" name="baby-chair-small" value="include">
-										Детское кресло (от 1 мес. до 2 лет) €2,5/день
+									<h4>Des services supplémentaires:</h4>
+									<div class="additional-service">
+										<!--<input class="checkbox" type="checkbox" id="baby-chair-small" value="include">-->
+										<select class="service-amount" id="baby-chair-small">
+											<option value="0">0</option>
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+											<option value="4">4</option>
+										</select>
+										<div class="service-name" name="baby-chair-small">Siège enfant (de 1 mois à 2 ans) €2,5/jour</div>
 									</div>
-									<div class="car-add-checkbox">
-										<input type="checkbox" name="baby-chair-big" value="include">
-										Детское кресло (от 2 до 4 лет) €7,5/день
+									<div class="additional-service">
+										<!--<input class="checkbox" type="checkbox" id="baby-chair-middle" value="include">-->
+										<select class="service-amount" id="baby-chair-middle">
+											<option value="0">0</option>
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+											<option value="4">4</option>
+										</select>
+										<div class="service-name" name="baby-chair-middle">Siège enfant (de 2 à 4 ans) €7,5/jour</div>
 									</div>
-									<div class="car-add-checkbox">
-										<input type="checkbox" name="booster" value="include">
-										Бустер €2,5/день
+									<div class="additional-service">
+										<!--<input class="checkbox" type="checkbox" id="booster" value="include">-->
+										<select class="service-amount" id="booster">
+											<option value="0">0</option>
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+											<option value="4">4</option>
+										</select>
+										<div class="service-name" name="booster">Le booster €2,5/jour</div>
 									</div>
-									<div class="car-add-checkbox">
-										<input type="checkbox" name="driver" value="include">
-										Услуги водителя €5/час (не менее 8 часов - €40/день)
+									<div class="additional-service">
+										<div class="service-name" name="driver">* Services de chauffeur €5/$heure (au moins 8 heures - €40/jour)</div>
 									</div>
 								</div>
 								<div class="car__booking-form_additional-calc">
 									<div class="car-add-calc-field">
-										<div class="car-add-calc-field_label">Стоимость аренды: </div>
+										<div class="car-add-calc-field_label">Prix du loyer:</div>
 										<div class="car-add-calc-field_value" id="rent-cost">0 €</div>
 									</div>
 									<div class="car-add-calc-field">
-										<div class="car-add-calc-field_label">Возвратный депозит: </div>
-										<div class="car-add-calc-field_value" id="rent-deposit">0 €</div>
+										<div class="car-add-calc-field_label">Dépôt remboursable:</div>
+										<div class="car-add-calc-field_value" id="rent-deposit">500 €</div>
 									</div>
 									<div class="car-add-calc-field">
-										<div class="car-add-calc-field_label">Страховка:</div>
+										<div class="car-add-calc-field_label">Assurance:</div>
 										<div class="car-add-calc-field_value" id="rent-insurance">0 €</div>
 									</div>
 									<div class="car-add-calc-field">
-										<div class="car-add-calc-field_label total-label">Итого:</div>
+										<div class="car-add-calc-field_label total-label">Total:</div>
 										<div class="car-add-calc-field_value total-amount" id="rent-sum">0 €</div>
+									</div>
+									<div class="car-add-calc-field">
+										* un détail du montant sera fourni avant la réservation
 									</div>
 								</div>
 							</div>
-							<button class="car__booking-form_button">
-								бронировать
-							</button>
+							<a href="" style="pointer-events: none;" class="car__booking-form_button calculation-inactive">Calcul détaillé</a>
 						</form>
+
+
+						<!--<div class="car__booking-form_title">
+								Бронирование автомобиля
+							</div>
+							<form action="" class="car__booking-form_form">
+								<div class="car__booking-form_main">
+									<div class="car__booking-form_main-long">
+										Место подачи автомобиля
+										<input class="car__inputfield" type="text" name="" value="" />
+									</div>
+									<div class="car__booking-form_main-long">
+										Место cдачи автомобиля
+										<input class="car__inputfield" type="text" name="" value="" />
+									</div>
+									<div class="car__booking-form_main-short">
+										Дата подачи
+										<input class="car__inputfield" type="text" name="" value="" />
+									</div>
+									<div class="car__booking-form_main-short">
+										Время подачи
+										<input class="car__inputfield" type="text" name="" value="" />
+									</div>
+									<div class="car__booking-form_main-short">
+										Дата cдачи
+										<input class="car__inputfield" type="text" name="" value="" />
+									</div>
+									<div class="car__booking-form_main-short">
+										Время cдачи
+										<input class="car__inputfield" type="text" name="" value="" />
+									</div>
+								</div>
+								<div class="car__booking-form_additional">
+									<div class="car__booking-form_additional-checkgroup">
+									   <h4>Дополнительные услуги:</h4>
+									   <div class="car-add-checkbox">
+											<input type="checkbox" name="baby-chair-small" value="include">
+											Детское кресло (от 1 мес. до 2 лет) €2,5/день</div>
+										<div class="car-add-checkbox">
+											<input type="checkbox" name="baby-chair-big" value="include">
+											Детское кресло (от 2 до 4 лет) €7,5/день</div>
+										<div class="car-add-checkbox">
+											<input type="checkbox" name="booster" value="include">
+											Бустер €2,5/день</div>
+										<div class="car-add-checkbox">
+											<input type="checkbox" name="driver" value="include">
+											Услуги водителя €5/час (не менее 8 часов - €40/день)</div>
+                           </div>
+                           <div class="car__booking-form_additional-calc">
+                           	<div class="car-add-calc-field">
+                           		<div class="car-add-calc-field_label">Стоимость аренды: </div>
+                           		<div class="car-add-calc-field_value" id="rent-cost">0 €</div>
+                           	</div>
+                           	<div class="car-add-calc-field">
+                           		<div class="car-add-calc-field_label">Возвратный депозит: </div>
+                           		<div class="car-add-calc-field_value" id="rent-deposit">0 €</div>
+                           	</div>
+                           	<div class="car-add-calc-field">
+                           		<div class="car-add-calc-field_label">Страховка:</div>
+                           		<div class="car-add-calc-field_value" id="rent-insurance">0 €</div>
+                           	</div>
+                           	<div class="car-add-calc-field">
+                           		<div class="car-add-calc-field_label total-label">Итого:</div>
+                           		<div class="car-add-calc-field_value total-amount" id="rent-sum">0 €</div>
+                           	</div>
+                           </div>
+								</div>
+								<button class="car__booking-form_button calculation-inactive">
+									<div>бронировать</div>
+								</button>
+							</form>-->
 					</div>
 					<div data-da=".car__booking-form_main, 720" class="car__booking-calendar">
 						<div class="interval-calendar">

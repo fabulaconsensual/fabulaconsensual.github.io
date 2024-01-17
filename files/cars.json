@@ -3,7 +3,6 @@
 		{
 			"id": 1,
 			"name": "Toyota Yaris 2019",
-			"img": "yaris2019.png",
 			"gallery": [],
 			"kpp": "auto",
 			"gas": "gasolin",
@@ -25,7 +24,6 @@
 		{
 			"id": 2,
 			"name": "Toyota Yaris hybrid 2019",
-			"img": "yaris-hybrid2019.png",
 			"gallery": [],
 			"kpp": "auto",
 			"gas": "gasolin",
@@ -47,7 +45,6 @@
 		{
 			"id": 3,
 			"name": "Renault Clio universal 2019",
-			"img": "clio-new-1.png",
 			"gallery": [],
 			"kpp": "auto",
 			"gas": "disel",
@@ -69,7 +66,6 @@
 		{
 			"id": 4,
 			"name": "Renault Clio 2019",
-			"img": "clio-1.png",
 			"gallery": [],
 			"kpp": "manual",
 			"gas": "disel",
@@ -91,7 +87,6 @@
 		{
 			"id": 5,
 			"name": "Ford Fiesta 2020",
-			"img": "ford.png",
 			"gallery": [],
 			"kpp": "manual",
 			"gas": "gasolin",
@@ -113,7 +108,6 @@
 		{
 			"id": 6,
 			"name": "Peugeot 108 2020",
-			"img": "peugeout.png",
 			"gallery": [],
 			"kpp": "manual",
 			"gas": "gasolin",
@@ -134,8 +128,7 @@
 		},
 		{
 			"id": 7,
-			"name": "Smart ForFour 2019",
-			"img": "smart.png",
+			"name": "Datcha Stepway",
 			"gallery": [],
 			"kpp": "manual",
 			"gas": "gasolin",

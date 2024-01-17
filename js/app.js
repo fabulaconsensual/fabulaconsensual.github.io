@@ -6572,9 +6572,6 @@ PERFORMANCE OF THIS SOFTWARE.
         }
         const da = new DynamicAdapt("max");
         da.init();
-        function getLang() {
-            return document["childNodes"][1]["attributes"]["lang"].value;
-        }
         document.querySelector(".header");
         const mainCarusel = document.querySelector(".main-ccc");
         const car_park_up = document.querySelector(".car-block__row--up");
@@ -6590,14 +6587,19 @@ PERFORMANCE OF THIS SOFTWARE.
         const middleCarSeatPrice = 7.5;
         const boosterCarSeatPrice = 2.5;
         const driverPrice = 40;
-        const cLang = document["childNodes"][1]["attributes"]["lang"].value;
+        function getLang() {
+            return document["childNodes"][1]["attributes"]["lang"].value;
+        }
+        const cLang = getLang();
+        function llang(obj) {
+            return obj[cLang];
+        }
         async function loadCarDB() {
             const carsDB = await fetch("/files/cars.json", {
                 method: "GET"
             });
             if (carsDB.ok) {
                 const carItems = await carsDB.json();
-                console.log("CarsDB loaded!");
                 let itemN = 1;
                 carItems.cars.forEach((item => {
                     if (mainCarusel) buildMainCaruselItem(item);
@@ -6612,11 +6614,7 @@ PERFORMANCE OF THIS SOFTWARE.
                         let events = [];
                         fetch(url).then((response => response.json())).then((data => {
                             events = data.items || [];
-                            if (events.length > 0) {
-                                console.log("Upcoming events:");
-                                console.log(events);
-                                buildCarDetailPage(item, events);
-                            } else console.log("No upcoming events found.");
+                            if (events.length > 0) buildCarDetailPage(item, events);
                         })).catch((error => {
                             console.error("Error fetching events:", error);
                         }));
@@ -6631,189 +6629,80 @@ PERFORMANCE OF THIS SOFTWARE.
         function buildCarParkOddBlock() {
             let cCard = ``;
             cCard += `\n\t\x3c!-- OddBlock --\x3e\n\t<div class="car-block__row_item">\n\t\t\t\x3c!--<div class="car-img">--\x3e\n\t\t\t\t<img class="car-img" src="../img/cars/road.jpg" alt="">\n\t\t\t\x3c!--</div>--\x3e\n\t\t\t<div class="car-ptr">  \x3c!-- "oddcont"--\x3e \n\t\t\t\t<div class="oddcont__text">`;
-            switch (getLang()) {
-              case "en":
-                cCard += `\n\t\t\tWhen <span>renting</span> a car <span>for a month or more</span>, we will offer you individual and very favorable\n\t\t\t<span>conditions</span>`;
-                break;
-
-              case "ru":
-                cCard += `\n\t\t\tПри <span>аренде</span> авто <span>на месяц и больше</span>, мы предложим вам индивидуальные и\n\t\t\tочень выгодные\n\t\t\t<span>условия</span>`;
-                break;
-
-              case "ua":
-                cCard += `\n\t\t\tПри <span>оренді</span> авто <span>на місяць і більше</span>, ми запропонуємо вам індивідуальні та дуже вигідні\n\t\t\t<span>умови</span>`;
-                break;
-
-              case "pt":
-                cCard += `\n\t\t\tAo <span>alugar</span> um carro <span>por um mês ou mais</span>, oferecemos-lhe condições individuais e muito\n\t\t\t<span>favoráveis</span>`;
-                break;
-
-              case "fr":
-                cCard += `\n\t\t\tLors <span>de la location</span> d'une voiture <span>pour un mois ou plus</span>, nous vous proposerons des conditions individuelles et très\n\t\t\t<span>avantageuses</span>`;
-                break;
-            }
+            cCard += llang({
+                en: "When <span>renting</span> a car <span>for a month or more</span>, we will offer you individual and very favorable\t<span>conditions</span>",
+                ru: "При <span>аренде</span> авто <span>на месяц и больше</span>, мы предложим вам индивидуальные и очень выгодные <span>условия</span>",
+                ua: "При <span>оренді</span> авто <span>на місяць і більше</span>, ми запропонуємо вам індивідуальні та дуже вигідні <span>умови</span>",
+                pt: "Ao <span>alugar</span> um carro <span>por um mês ou mais</span>, oferecemos-lhe condições individuais e muito\t<span>favoráveis</span>",
+                fr: "Lors <span>de la location</span> d'une voiture <span>pour un mois ou plus</span>, nous vous proposerons des conditions individuelles et très <span>avantageuses</span>"
+            });
             cCard += `\n\t\t\t\t</div>\n\t\t\t\t<div class="oddcont__contact">\n\t\t\t\t\t<img src="../img/cars/phone.svg" alt="" class="phone-icon">\n\t\t\t\t\t<div class="phone-num">\n\t\t\t\t\t\t<p>`;
-            switch (getLang()) {
-              case "en":
-                cCard += `\n\t\t\tcall us`;
-                break;
-
-              case "ru":
-                cCard += `\n\t\t\tзвоните`;
-                break;
-
-              case "ua":
-                cCard += `\n\t\t\tдзвоніть`;
-                break;
-
-              case "pt":
-                cCard += `\n\t\t\tchamar`;
-                break;
-
-              case "fr":
-                cCard += `\n\t\t\tappel`;
-                break;
-            }
+            cCard += llang({
+                en: "call us",
+                ru: "звоните",
+                ua: "телефонуйте",
+                pt: "chamar",
+                fr: "appel"
+            });
             cCard += `\n\t\t\t\t\t\t</p>\n\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\t+351 960 00 4045\n\t\t\t\t\t\t</p>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\t\t\n\t</div>\n\t`;
             car_park_down.insertAdjacentHTML("beforeend", cCard);
         }
         function buildCarCards(item) {
+            let transmission = {
+                auto: {
+                    en: "auto",
+                    pt: "auto",
+                    fr: "auto",
+                    ua: "авто",
+                    ru: "авто"
+                },
+                manual: {
+                    en: "manual",
+                    pt: "manual",
+                    fr: "manuel",
+                    ua: "ручна",
+                    ru: "ручная"
+                }
+            };
+            let fuel = {
+                gasolin: {
+                    en: "petrol",
+                    pt: "gasolina",
+                    fr: "essence",
+                    ua: "бензин",
+                    ru: "бензин"
+                },
+                disel: {
+                    en: "diesel",
+                    pt: "diesel",
+                    fr: "diesel",
+                    ua: "дизель",
+                    ru: "дизель"
+                }
+            };
+            let sprice1 = {
+                en: "from ",
+                pt: "de ",
+                fr: "depuis ",
+                ua: "від ",
+                ru: "от "
+            };
+            let sprice2 = {
+                en: "€/day",
+                pt: "€/dia",
+                fr: "€/jour",
+                ua: "€/день",
+                ru: "€/день"
+            };
+            let rent = {
+                en: "rent ",
+                pt: "agendar ",
+                fr: "réserver ",
+                ua: "бронювати ",
+                ru: "бронировать "
+            };
             let carParkCard = ``;
-            carParkCard += `\n\t\x3c!-- Car Cards #${item.id} :: ${item.name} --\x3e\n\t<div class="car-block__row_item">\n\t\x3c!--<div class="car-img">\n\t\t\t<img src="/img/cars/${item.img}" alt="">\n\t\t</div>--\x3e\n\t\t<img class="car-img" src="/img/cars/${item.img}" alt="">\n\n\t\t<div class="car-ptr">\n\t\t\t<div class="car-name">${item.name}</div>\n\t\t\t<div class="car-plist">\n\t\t\t\t<div class="car-ca-ptr">\n\t\t`;
-            if (item.kpp == "auto") {
-                carParkCard += `\n\t\t\t\t\t<img src="/img/transmission-auto.svg" alt="">`;
-                switch (getLang()) {
-                  case "en":
-                    carParkCard += `\n\t\t\t\tauto`;
-                    break;
-
-                  case "ru":
-                    carParkCard += `\n\t\t\t\tавто`;
-                    break;
-
-                  case "ua":
-                    carParkCard += `\n\t\t\t\tавто`;
-                    break;
-
-                  case "pt":
-                    carParkCard += `\n\t\t\t\tauto`;
-                    break;
-
-                  case "fr":
-                    carParkCard += `\n\t\t\t\tauto`;
-                    break;
-                }
-            } else {
-                carParkCard += `\n\t\t\t\t\t<img src="/img/transmission-manual.svg" alt=""> `;
-                switch (getLang()) {
-                  case "en":
-                    carParkCard += `\n\t\t\t\tmanual`;
-                    break;
-
-                  case "ru":
-                    carParkCard += `\n\t\t\t\tручная`;
-                    break;
-
-                  case "ua":
-                    carParkCard += `\n\t\t\t\tручна`;
-                    break;
-
-                  case "pt":
-                    carParkCard += `\n\t\t\t\tmanual`;
-                    break;
-
-                  case "fr":
-                    carParkCard += `\n\t\t\t\tmanuel`;
-                    break;
-                }
-            }
-            carParkCard += `\n\t\t\t\t</div>\n\t\t\t\t<div class="car-ca-ptr">\n\t\t\t\t\t<img src="/img/Gas.svg" alt=""> \n\t`;
-            if (item.gas == "gasolin") switch (getLang()) {
-              case "en":
-                carParkCard += `\n\t\t\t\tpetrol`;
-                break;
-
-              case "ru":
-                carParkCard += `\n\t\t\t\tбензин`;
-                break;
-
-              case "ua":
-                carParkCard += `\n\t\t\t\tбензин`;
-                break;
-
-              case "pt":
-                carParkCard += `\n\t\t\t\tgasolina`;
-                break;
-
-              case "fr":
-                carParkCard += `\n\t\t\t\tessence`;
-                break;
-            } else switch (getLang()) {
-              case "en":
-                carParkCard += `\n\t\t\t\tdiesel`;
-                break;
-
-              case "ru":
-                carParkCard += `\n\t\t\t\tдизель`;
-                break;
-
-              case "ua":
-                carParkCard += `\n\t\t\t\tдизель`;
-                break;
-
-              case "pt":
-                carParkCard += `\n\t\t\t\tdiesel`;
-                break;
-
-              case "fr":
-                carParkCard += `\n\t\t\t\tdiesel`;
-                break;
-            }
-            carParkCard += `\n\t\t\t\t</div>\n\t\t\t\t<div class="car-ca-ptr">\n\t\t\t\t\t<img src="/img/seats.svg" alt="">\n\t\t\t\t\t${item.seats}\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class="car-price">`;
-            switch (getLang()) {
-              case "en":
-                carParkCard += `\n\t\t\tfrom ${item.sprice}€/day`;
-                break;
-
-              case "ru":
-                carParkCard += `\n\t\t\tот ${item.sprice}€/день`;
-                break;
-
-              case "ua":
-                carParkCard += `\n\t\t\tвід ${item.sprice}€/день`;
-                break;
-
-              case "pt":
-                carParkCard += `\n\t\t\tde ${item.sprice}€/dia`;
-                break;
-
-              case "fr":
-                carParkCard += `\n\t\t\tdepuis ${item.sprice}€/jour`;
-                break;
-            }
-            carParkCard += `\n\t\t\t</div>\n\t\t\t<div class="car-ptr_button"><a href="car.html#${item.id}">`;
-            switch (getLang()) {
-              case "en":
-                carParkCard += `\n\t\t\trent`;
-                break;
-
-              case "ru":
-                carParkCard += `\n\t\t\tбронировать`;
-                break;
-
-              case "ua":
-                carParkCard += `\n\t\t\tбронювати`;
-                break;
-
-              case "pt":
-                carParkCard += `\n\t\t\tagendar`;
-                break;
-
-              case "fr":
-                carParkCard += `\n\t\t\tréserver`;
-                break;
-            }
-            carParkCard += `</a></div>\n\t\t</div>\n\t</div> \n\t`;
+            carParkCard += `\n\t\x3c!-- Car Cards #${item.id} :: ${item.name} --\x3e\n\t<div class="car-block__row_item">\n\t\x3c!--<div class="car-img">\n\t\t\t<img src="/img/cars/${item.img}" alt="">\n\t\t</div>--\x3e\n\t\t<img class="car-img" src="/img/cars/car${+item.id}/side.jpg" alt="">\n\n\t\t<div class="car-ptr">\n\t\t\t<div class="car-name">${item.name}</div>\n\t\t\t<div class="car-plist">\n\t\t\t\t<div class="car-ca-ptr">\n\t\t\t\t<img src="/img/transmission-${item.kpp}.svg" alt="">\n\t\t\t\t${transmission[item.kpp][cLang]}\n\t\t\t\t</div>\n\t\t\t\t<div class="car-ca-ptr">\n\t\t\t\t\t<img src="/img/Gas.svg" alt=""> \n\t\t\t\t\t${fuel[item.gas][cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="car-ca-ptr">\n\t\t\t\t\t\t<img src="/img/seats.svg" alt="">\n\t\t\t\t\t\t${item.seats}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="car-price">\n\t\t\t\t${sprice1[cLang]} ${item.sprice} ${sprice2[cLang]}\n\t\t\t\t</div>\n\t\t\t\t<a href="car.html#${item.id}" class="car-ptr_button">${rent[cLang]}</a>\n\t\t</div>\n\t</div> \n\t\t`;
             return carParkCard;
         }
         function buildCarParkUpBlock(item) {
@@ -6826,140 +6715,57 @@ PERFORMANCE OF THIS SOFTWARE.
         }
         function buildMainCaruselItem(item) {
             let carCaruselCards = ``;
-            carCaruselCards += `\n\t\x3c!-- Car Cards #${item.id} :: ${item.name} --\x3e\n\t<div class="swiper-slide ca-item">\n\t\t<img class="ca-img" src="/img/cars/${item.img}" alt="">\n\t\t<div class="block-card">\n\t\t\t<div class="car-name"> ${item.name} </div>\n\t\t\t<div class="plist">\n\t\t\t\t<div class="ca-ptr">\n\t`;
+            carCaruselCards += `\n\t\x3c!-- Car Cards #${item.id} :: ${item.name} --\x3e\n\t<div class="swiper-slide ca-item">\n\t\t<img class="ca-img" src="/img/cars/car${+item.id}/side.jpg" alt="">\n\t\t<div class="block-card">\n\t\t\t<div class="car-name"> ${item.name} </div>\n\t\t\t<div class="plist">\n\t\t\t\t<div class="ca-ptr">\n\t`;
             if (item.kpp == "auto") {
                 carCaruselCards += `\n\t\t\t\t\t<img src="/img/transmission-auto.svg" alt="">`;
-                switch (getLang()) {
-                  case "en":
-                    carCaruselCards += `\n\t\t\t\tauto`;
-                    break;
-
-                  case "ru":
-                    carCaruselCards += `\n\t\t\t\tавто`;
-                    break;
-
-                  case "ua":
-                    carCaruselCards += `\n\t\t\t\tавто`;
-                    break;
-
-                  case "pt":
-                    carCaruselCards += `\n\t\t\t\tauto`;
-                    break;
-
-                  case "fr":
-                    carCaruselCards += `\n\t\t\t\tauto`;
-                    break;
-                }
+                carCaruselCards += llang({
+                    en: "auto",
+                    ru: "авто",
+                    ua: "авто",
+                    pt: "auto",
+                    fr: "auto"
+                });
             } else {
-                carCaruselCards += `\n\t\t\t\t\t<img src="/img/transmission-manual.svg" alt=""> `;
-                switch (getLang()) {
-                  case "en":
-                    carCaruselCards += `\n\t\t\t\tmanual`;
-                    break;
-
-                  case "ru":
-                    carCaruselCards += `\n\t\t\t\tручная`;
-                    break;
-
-                  case "ua":
-                    carCaruselCards += `\n\t\t\t\tручна`;
-                    break;
-
-                  case "pt":
-                    carCaruselCards += `\n\t\t\t\tmanual`;
-                    break;
-
-                  case "fr":
-                    carCaruselCards += `\n\t\t\t\tmanuel`;
-                    break;
-                }
+                carCaruselCards += `\n\t\t\t\t\t<img src="/img/transmission-manual.svg" alt="">`;
+                carCaruselCards += llang({
+                    en: "manual",
+                    ru: "ручная",
+                    ua: "ручна",
+                    pt: "manual",
+                    fr: "manuel"
+                });
             }
             carCaruselCards += `\n\t\t\t\t</div>\n\t\t\t\t<div class="ca-ptr">\n\t\t\t\t\t<img src="/img/Gas.svg" alt=""> \n\t`;
-            if (item.gas == "gasolin") switch (getLang()) {
-              case "en":
-                carCaruselCards += `\n\t\t\t\tpetrol`;
-                break;
-
-              case "ru":
-                carCaruselCards += `\n\t\t\t\tбензин`;
-                break;
-
-              case "ua":
-                carCaruselCards += `\n\t\t\t\tбензин`;
-                break;
-
-              case "pt":
-                carCaruselCards += `\n\t\t\t\tgasolina`;
-                break;
-
-              case "fr":
-                carCaruselCards += `\n\t\t\t\tessence`;
-                break;
-            } else switch (getLang()) {
-              case "en":
-                carCaruselCards += `\n\t\t\t\tdiesel`;
-                break;
-
-              case "ru":
-                carCaruselCards += `\n\t\t\t\tдизель`;
-                break;
-
-              case "ua":
-                carCaruselCards += `\n\t\t\t\tдизель`;
-                break;
-
-              case "pt":
-                carCaruselCards += `\n\t\t\t\tdiesel`;
-                break;
-
-              case "fr":
-                carCaruselCards += `\n\t\t\t\tdiesel`;
-                break;
-            }
+            if (item.gas == "gasolin") carCaruselCards += llang({
+                en: "petrol",
+                ru: "безнин",
+                ua: "бензин",
+                pt: "gasolina",
+                fr: "essence"
+            }); else carCaruselCards += llang({
+                en: "diesel",
+                ru: "дизель",
+                ua: "дизель",
+                pt: "diesel",
+                fr: "diesel"
+            });
             carCaruselCards += `\n\t\t\t\t</div>\n\t\t\t\t<div class="ca-ptr">\n\t\t\t\t\t<img src="/img/seats.svg" alt="">\n\t\t\t\t\t${item.seats}\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class="price">`;
-            switch (getLang()) {
-              case "en":
-                carCaruselCards += `\n\t\t\tfrom ${item.sprice}€/day`;
-                break;
-
-              case "ru":
-                carCaruselCards += `\n\t\t\tот ${item.sprice}€/день`;
-                break;
-
-              case "ua":
-                carCaruselCards += `\n\t\t\tвід ${item.sprice}€/день`;
-                break;
-
-              case "pt":
-                carCaruselCards += `\n\t\t\tde ${item.sprice}€/dia`;
-                break;
-
-              case "fr":
-                carCaruselCards += `\n\t\t\tdepuis ${item.sprice}€/jour`;
-                break;
-            }
-            carCaruselCards += `\n\t\t\t</div>\n\t\t\t<div class="main_card_button"><a href="car.html#${item.id}">`;
-            switch (getLang()) {
-              case "en":
-                carCaruselCards += `\n\t\t\tmore info`;
-                break;
-
-              case "ru":
-                carCaruselCards += `\n\t\t\tподробнее`;
-                break;
-
-              case "ua":
-                carCaruselCards += `\n\t\t\tДетальніше`;
-                break;
-
-              case "pt":
-                carCaruselCards += `\n\t\t\tmais detalhes`;
-                break;
-
-              case "fr":
-                carCaruselCards += `\n\t\t\tplus de détails`;
-                break;
-            }
+            carCaruselCards += item.sprice;
+            carCaruselCards += llang({
+                en: "€/day",
+                ru: "€/день",
+                ua: "€/день",
+                pt: "€/dia",
+                fr: "€/jour"
+            });
+            carCaruselCards += `\n\t\t\t</div>\n\t\t\t<a href="car.html#${item.id}" class="main_card_button">`;
+            carCaruselCards += llang({
+                en: "more info",
+                ru: "подробнее",
+                ua: "подробиці",
+                pt: "mais",
+                fr: "détails"
+            });
             carCaruselCards += `\n\t\t\t</a></div>\n\t\t</div>\n\t</div> \n\t`;
             mainCarusel.insertAdjacentHTML("beforeend", carCaruselCards);
         }
@@ -6985,6 +6791,7 @@ PERFORMANCE OF THIS SOFTWARE.
         let rentTotalPrice = 0;
         let serviceTotalPrice = 0;
         let code = "0".repeat(31);
+        let avaliableSeatsGlobal = 0;
         function buildCalendar(item, events) {
             rentTotalPrice = 0;
             function makeMonth(block, date, item, events, idName) {
@@ -7126,7 +6933,11 @@ PERFORMANCE OF THIS SOFTWARE.
                     }
                 };
                 function makeControls(mo, yr) {
-                    let str = `\n\t\t\t\t<div class="ical__control">\n\t\t\t\t\t<button class="ical__control_prev-next control__prev">«</button>\n\t\t\t\t\t<div class="ical__control_mbutton"> ${mo} <span>${yr}</span></div>\n\t\t\t\t\t<button class="ical__control_prev-next control__next no-control">»</button>\n\t\t\t\t</div>`;
+                    let str = `\n\t\t\t\t<div class="ical__control">\n\t\t\t\t\t<button class="ical__control_prev-next control__prev `;
+                    if (!MonthAdditive) str += `control_inactive`;
+                    str += `\n\t\t\t\t\t">«</button>\n\t\t\t\t\t<div class="ical__control_mbutton"> ${mo} <span>${yr}</span></div>\n\t\t\t\t\t<button class="ical__control_prev-next control__next no-control `;
+                    if (MonthAdditive > 5) str += `control_inactive`;
+                    str += `">»</button>\n\t\t\t\t</div>`;
                     return str;
                 }
                 function loadCalendarData(date, item, events) {
@@ -7297,26 +7108,16 @@ PERFORMANCE OF THIS SOFTWARE.
             }));
             function selectDay() {
                 if (this.closest(".ical__table").id == "oCurrMonth") bufferDate = new Date(oCurrMonth.getFullYear(), oCurrMonth.getMonth(), this.innerHTML.replaceAll('">', " ").replaceAll("</div>", " ").slice(-10).trim()); else if (this.closest(".ical__table").id == "oNextMonth") bufferDate = new Date(oNextMonth.getFullYear(), oNextMonth.getMonth(), this.innerHTML.replaceAll('">', " ").replaceAll("</div>", " ").slice(-10).trim());
-                if (firstDate == null) {
-                    console.log("firstDate == null");
-                    firstDate = new Date(bufferDate);
-                } else if (bufferDate.getTime() === firstDate.getTime()) {
-                    console.log("bufferDate == firstDate");
+                if (firstDate == null) firstDate = new Date(bufferDate); else if (bufferDate.getTime() === firstDate.getTime()) {
                     firstDate = null;
                     lastDate = null;
                 } else if (bufferDate < firstDate) {
-                    console.log("lastDate<firstDate");
                     firstDate = new Date(bufferDate);
                     lastDate = null;
                 } else if (checkDaysBetween(bufferDate)) {
-                    console.log("checkDaysBetween");
                     firstDate = new Date(bufferDate);
                     lastDate = null;
-                } else if (lastDate == null) {
-                    console.log("lastDate == null");
-                    lastDate = new Date(bufferDate);
-                } else if (bufferDate.getTime() === lastDate.getTime()) {
-                    console.log("bufferDate == lastDate");
+                } else if (lastDate == null) lastDate = new Date(bufferDate); else if (bufferDate.getTime() === lastDate.getTime()) {
                     firstDate = new Date(bufferDate);
                     lastDate = null;
                 } else lastDate = new Date(bufferDate);
@@ -7332,19 +7133,14 @@ PERFORMANCE OF THIS SOFTWARE.
                 }
                 buildCalendar(item, events);
                 countServices();
-                console.log("rentTotalPrice=" + rentTotalPrice);
+                codeGenerator();
             }
         }
         function buildCarDetailPage(item, events) {
-            code = item.id + code.substring(1, code.length);
-            console.log(code);
-            function llang(obj) {
-                return obj[cLang];
-            }
+            avaliableSeatsGlobal = item.seats;
             header_block_text.insertAdjacentHTML("beforeend", `<h1>${item.name}</h1>`);
             document.querySelector(".langselect__body").querySelectorAll("a").forEach((link => {
                 link.href += location.hash;
-                console.log(link);
             }));
             car_picture.insertAdjacentHTML("beforeend", `<img src="/img/cars/car${item.id}/front.jpg" width="500px;" alt="${item.name} Preview Photo">`);
             function addMainTableRow(val, uline, labelmap) {
@@ -7398,7 +7194,7 @@ PERFORMANCE OF THIS SOFTWARE.
             }
             let otherOptions = ``;
             otherOptions += addOption(item.seqf, {
-                en: "Sequrity Alarm",
+                en: "Security Alarm",
                 pt: "[TBD]",
                 fr: "[TBD]",
                 ua: "[TBD]",
@@ -7469,20 +7265,53 @@ PERFORMANCE OF THIS SOFTWARE.
             });
             car_cdtable_others.insertAdjacentHTML("beforeend", otherOptions);
             buildCalendar(item, events);
+            code = item.id + code.substring(1, code.length);
         }
-        let services = document.querySelectorAll(".checkbox");
-        services.forEach((item => {
-            item.addEventListener("click", countServices);
+        document.createElement(null);
+        document.createElement(null);
+        document.createElement(null);
+        document.createElement(null);
+        let services = document.createElement(null);
+        let activeZone = document.querySelector(".car__booking-form");
+        if (activeZone != null) activeZone.addEventListener("click", codeGenerator);
+        let carDeliveryDateBlock = document.createElement(null);
+        let carDropoffDateBlock = document.createElement(null);
+        let carDeliveryTimeBlock = document.createElement(null);
+        let carDropOffTimeBlock = document.createElement(null);
+        let selectDeliveryLocation = document.createElement(null);
+        let selectDropoffLocation = document.createElement(null);
+        let rentButton = document.createElement(null);
+        let rentCost = document.createElement(null);
+        let rentSum = document.createElement(null);
+        let rentDeposit = document.createElement(null);
+        carDeliveryDateBlock = document.getElementById("delivery-date");
+        carDropoffDateBlock = document.getElementById("dropoff-date");
+        carDeliveryTimeBlock = document.getElementById("delivery-time");
+        carDropOffTimeBlock = document.getElementById("dropoff-time");
+        selectDeliveryLocation = document.getElementById("delivery-location");
+        selectDropoffLocation = document.getElementById("dropoff-location");
+        rentButton = document.querySelector(".car__booking-form_button");
+        rentCost = document.getElementById("rent-cost");
+        rentSum = document.getElementById("rent-sum");
+        rentDeposit = document.getElementById("rent-deposit");
+        services = document.querySelectorAll(".additional-service");
+        let sendClick = document.querySelectorAll(".car__container");
+        sendClick.forEach((item => {
+            item.addEventListener("click", detailedCalculationButtonToggle);
         }));
-        let carDeliveryDateBlock = document.getElementById("delivery-date");
-        let carDropoffDateBlock = document.getElementById("dropoff-date");
-        let carDeliveryTimeBlock = document.getElementById("delivery-time");
-        let carDropOffTimeBlock = document.getElementById("dropoff-time");
-        let selectDeliveryLocation = document.getElementById("delivery-location");
-        let selectDropoffLocation = document.getElementById("dropoff-location");
-        function countServices() {
-            let deposit = 0;
-            serviceTotalPrice = 0;
+        function detailedCalculationButtonToggle() {
+            if (firstDate == null) {
+                rentButton.href = "";
+                rentButton.classList.add("calculation-inactive");
+                rentButton.style = "pointer-events: none;";
+            } else {
+                let link = `payment.html#${code}`;
+                rentButton.href = link;
+                rentButton.classList.remove("calculation-inactive");
+                rentButton.style = "";
+            }
+        }
+        function codeGenerator() {
             let days = 0;
             code = code.slice(0, 1) + "0".repeat(30);
             if (firstDate != null) if (lastDate != null) {
@@ -7494,31 +7323,118 @@ PERFORMANCE OF THIS SOFTWARE.
             }
             code = code.slice(0, 25) + selectDeliveryLocation.selectedIndex + selectDropoffLocation.selectedIndex + code.slice(27, code.length);
             services.forEach((item => {
-                if (item.checked) if (item.name == "baby-chair-small") {
-                    serviceTotalPrice += 2.5 * days;
-                    code = code.slice(0, 27) + 1 + code.slice(28, code.length);
-                } else if (item.name == "baby-chair-big") {
-                    serviceTotalPrice += 7.5 * days;
-                    code = code.slice(0, 28) + 1 + code.slice(29, code.length);
-                } else if (item.name == "booster") {
-                    serviceTotalPrice += 2.5 * days;
-                    code = code.slice(0, 29) + 1 + code.slice(30, code.length);
-                } else if (item.name == "driver") {
-                    serviceTotalPrice += 40 * days;
-                    code = code.slice(0, 30) + 1 + code.slice(31, code.length);
+                if (item.firstElementChild.selectedIndex != NaN) if (item.firstElementChild.id == "baby-chair-small") code = code.slice(0, 27) + item.firstElementChild.selectedIndex + code.slice(28, code.length); else if (item.parentElement.firstElementChild.id == "baby-chair-middle") code = code.slice(0, 28) + item.firstElementChild.selectedIndex + code.slice(29, code.length); else if (item.parentElement.firstElementChild.id == "booster") code = code.slice(0, 29) + item.firstElementChild.selectedIndex + code.slice(30, code.length);
+            }));
+            countServices();
+        }
+        function countServices() {
+            const opt00 = document.createElement("option");
+            const opt01 = document.createElement("option");
+            const opt02 = document.createElement("option");
+            const opt03 = document.createElement("option");
+            const opt04 = document.createElement("option");
+            const opt05 = document.createElement("option");
+            const opt10 = document.createElement("option");
+            const opt11 = document.createElement("option");
+            const opt12 = document.createElement("option");
+            const opt13 = document.createElement("option");
+            const opt14 = document.createElement("option");
+            const opt15 = document.createElement("option");
+            const opt20 = document.createElement("option");
+            const opt21 = document.createElement("option");
+            const opt22 = document.createElement("option");
+            const opt23 = document.createElement("option");
+            const opt24 = document.createElement("option");
+            const opt25 = document.createElement("option");
+            opt00.value = "0";
+            opt00.text = "0";
+            opt01.value = "1";
+            opt01.text = "1";
+            opt02.value = "2";
+            opt02.text = "2";
+            opt03.value = "3";
+            opt03.text = "3";
+            opt04.value = "4";
+            opt04.text = "4";
+            opt05.value = "5";
+            opt05.text = "5";
+            opt10.value = "0";
+            opt10.text = "0";
+            opt11.value = "1";
+            opt11.text = "1";
+            opt12.value = "2";
+            opt12.text = "2";
+            opt13.value = "3";
+            opt13.text = "3";
+            opt14.value = "4";
+            opt14.text = "4";
+            opt15.value = "5";
+            opt15.text = "5";
+            opt20.value = "0";
+            opt20.text = "0";
+            opt21.value = "1";
+            opt21.text = "1";
+            opt22.value = "2";
+            opt22.text = "2";
+            opt23.value = "3";
+            opt23.text = "3";
+            opt24.value = "4";
+            opt24.text = "4";
+            opt25.value = "5";
+            opt25.text = "5";
+            var avaliableSeats = avaliableSeatsGlobal;
+            console.log(avaliableSeats);
+            let deposit = 0;
+            serviceTotalPrice = 0;
+            let days = 0;
+            if (firstDate != null) if (lastDate != null) days = (lastDate.getTime() - firstDate.getTime()) / 1e3 / 3600 / 24 + 1; else days = 1;
+            services.forEach((item => {
+                if (item.firstElementChild.selectedIndex != 0) if (item.firstElementChild.id == "baby-chair-small") {
+                    serviceTotalPrice += 2.5 * days * item.firstElementChild.selectedIndex;
+                    avaliableSeats -= item.firstElementChild.selectedIndex;
+                } else if (item.firstElementChild.id == "baby-chair-middle") {
+                    serviceTotalPrice += 7.5 * days * item.firstElementChild.selectedIndex;
+                    avaliableSeats -= item.firstElementChild.selectedIndex;
+                } else if (item.firstElementChild.id == "booster") {
+                    serviceTotalPrice += 2.5 * days * item.firstElementChild.selectedIndex;
+                    avaliableSeats -= item.firstElementChild.selectedIndex;
                 }
             }));
-            let rentCost = document.getElementById("rent-cost");
+            services.forEach((item => {
+                if (item.firstElementChild.id == "baby-chair-small") {
+                    for (var i = avaliableSeatsGlobal; i > item.firstElementChild.selectedIndex; i--) item.firstElementChild.remove(i);
+                    if (avaliableSeats + item.firstElementChild.selectedIndex > item.firstElementChild.selectedIndex) for (i = item.firstElementChild.selectedIndex + 1; i < avaliableSeats + item.firstElementChild.selectedIndex; i++) {
+                        if (i == 1) item.firstElementChild.add(opt01);
+                        if (i == 2) item.firstElementChild.add(opt02);
+                        if (i == 3) item.firstElementChild.add(opt03);
+                        if (i == 4) item.firstElementChild.add(opt04);
+                        if (i == 5) item.firstElementChild.add(opt05);
+                    }
+                }
+                if (item.firstElementChild.id == "baby-chair-middle") {
+                    for (i = avaliableSeatsGlobal; i > item.firstElementChild.selectedIndex; i--) item.firstElementChild.remove(i);
+                    if (avaliableSeats + item.firstElementChild.selectedIndex > item.firstElementChild.selectedIndex) for (i = item.firstElementChild.selectedIndex + 1; i < avaliableSeats + item.firstElementChild.selectedIndex; i++) {
+                        if (i == 1) item.firstElementChild.add(opt11);
+                        if (i == 2) item.firstElementChild.add(opt12);
+                        if (i == 3) item.firstElementChild.add(opt13);
+                        if (i == 4) item.firstElementChild.add(opt14);
+                        if (i == 5) item.firstElementChild.add(opt15);
+                    }
+                }
+                if (item.firstElementChild.id == "booster") {
+                    for (i = avaliableSeatsGlobal; i > item.firstElementChild.selectedIndex; i--) item.firstElementChild.remove(i);
+                    if (avaliableSeats + item.firstElementChild.selectedIndex > item.firstElementChild.selectedIndex) for (i = item.firstElementChild.selectedIndex + 1; i < avaliableSeats + item.firstElementChild.selectedIndex; i++) {
+                        if (i == 1) item.firstElementChild.add(opt21);
+                        if (i == 2) item.firstElementChild.add(opt22);
+                        if (i == 3) item.firstElementChild.add(opt23);
+                        if (i == 4) item.firstElementChild.add(opt24);
+                        if (i == 5) item.firstElementChild.add(opt15);
+                    }
+                }
+            }));
             rentCost.textContent = rentTotalPrice + serviceTotalPrice + " €";
-            if (days > 0) {
-                let rentDeposit = document.getElementById("rent-deposit");
-                deposit = parseInt(rentDeposit.textContent.split(" ")[0]);
-            }
-            let rentSum = document.getElementById("rent-sum");
+            if (days > 0) deposit = parseInt(rentDeposit.textContent.split(" ")[0]);
             rentSum.textContent = rentTotalPrice + serviceTotalPrice + deposit + " €";
-            let rentButton = document.querySelector(".car__booking-form_button");
-            rentButton.innerHTML = "";
-            rentButton.insertAdjacentHTML("beforeend", `<a href="payment.html#${code}">бронировать</a>`);
         }
         function buildPaymentPage(item, hash) {
             console.log(hash);
@@ -7533,32 +7449,31 @@ PERFORMANCE OF THIS SOFTWARE.
             item.name;
             let places = {
                 0: {
+                    en: "Shopping center Forum",
+                    pt: "Fórum do centro comercial",
+                    fr: "Forum Centre commercial",
+                    ua: "ТЦ Форум",
+                    ru: "ТЦ Форум"
+                },
+                1: {
                     en: "Aeroport",
                     pt: "Aeroporto",
                     fr: "Aéroport",
                     ua: "Аеропорт",
                     ru: "Аэропорт"
                 },
-                1: {
+                2: {
                     en: "Funchal",
                     pt: "Funchal",
                     fr: "Funchal",
                     ua: "Фуншал",
                     ru: "Фуншал"
-                },
-                2: {
-                    en: "Shopping center Forum",
-                    pt: "Fórum do centro comercial",
-                    fr: "Forum Centre commercial",
-                    ua: "ТЦ Форум",
-                    ru: "ТЦ Форум"
                 }
             };
             let firstDate = new Date(hash.slice(1, 5), hash.slice(5, 7) - 1, hash.slice(7, 9));
             let lastDate = new Date(hash.slice(13, 17), hash.slice(17, 19) - 1, hash.slice(19, 21));
             let deliveryLocation = +hash.slice(-6).slice(0, 1);
             let dropoffLocation = +hash.slice(-6).slice(1, 2);
-            console.log(deliveryLocation);
             let orderInformationTitle = {
                 en: "Order information",
                 pt: "Informações do pedido",
@@ -7611,7 +7526,7 @@ PERFORMANCE OF THIS SOFTWARE.
             let rentPriceItemName = {
                 en: "Rent price:",
                 pt: "Preço do aluguel:",
-                fr: "Prix ​​du loyer:",
+                fr: "Prix du loyer:",
                 ua: "Вартість оренди:",
                 ru: "Стоимость аренды:"
             };
@@ -7685,7 +7600,99 @@ PERFORMANCE OF THIS SOFTWARE.
                 ua: "РАЗОМ:",
                 ru: "ИТОГО:"
             };
+            let paymentInformationTitleItemName = {
+                en: "Payment details",
+                pt: "Detalhes do pagamento",
+                fr: "Détails de paiement",
+                ua: "Дані для оплати",
+                ru: " Данные для оплаты"
+            };
+            let firstNameItemName = {
+                en: "First name",
+                pt: "Primeiro nome",
+                fr: "Prénom",
+                ua: "Ім'я",
+                ru: "Имя"
+            };
+            let secondNameItemName = {
+                en: "Surname",
+                pt: "Sobrenome",
+                fr: "Nom de famille",
+                ua: "Прізвище",
+                ru: "Фамилия"
+            };
+            let phoneNumberItemName = {
+                en: "Phone number",
+                pt: "Número de telefone",
+                fr: "Numéro de téléphone",
+                ua: "Номер телефону",
+                ru: "Номер телефона"
+            };
+            let addressItemName = {
+                en: "Address",
+                pt: "Endereço",
+                fr: "Adresse",
+                ua: "Адреса",
+                ru: "Адрес"
+            };
+            let extraItemName = {
+                en: "extra",
+                pt: "extra",
+                fr: "supplémentaire",
+                ua: "додатковий",
+                ru: "продолжение"
+            };
+            let postalcodeItemName = {
+                en: "Postal code",
+                pt: "Código postal",
+                fr: "Code Postal",
+                ua: "Поштовий індекс",
+                ru: "Почтовый индекс"
+            };
+            let cityItemName = {
+                en: "City",
+                pt: "Cidade",
+                fr: "Ville",
+                ua: "Місто",
+                ru: "Город"
+            };
+            let stateItemName = {
+                en: "State / Province",
+                pt: "Estado / Província",
+                fr: "État / Province",
+                ua: "Штат / Провінція",
+                ru: "Штат / Провинция"
+            };
+            let countryItemName = {
+                en: "A country",
+                pt: "Um país",
+                fr: "Un pays",
+                ua: "Країна",
+                ru: "Страна"
+            };
+            let agreementItemName = {
+                en: "I agree to the Privacy Policy",
+                pt: "Eu concordo com a Política de Privacidade",
+                fr: "J'accepte la politique de confidentialité",
+                ua: "Я погоджуюсь з Політикою конфіденційності",
+                ru: "Я соглашаюсь с Политикой конфиденциальности"
+            };
+            let backItemName = {
+                en: "Back",
+                pt: "Voltar",
+                fr: "Dos",
+                ua: "Назад",
+                ru: "Назад"
+            };
+            let payItemName = {
+                en: "Pay",
+                pt: "Pagar",
+                fr: "Payer",
+                ua: "Сплатити",
+                ru: "Оплатить"
+            };
             let paymentBlockContainer = document.querySelector(".payment-block__container");
+            let paymentPage = ``;
             rentalPeriod = (lastDate.getTime() - firstDate.getTime()) / 1e3 / 3600 / 24 + 1;
             for (let i = 0; i < rentalPeriod; i++) {
                 let cdate = new Date(firstDate.getFullYear(), firstDate.getMonth(), firstDate.getDate() + i);
@@ -7713,10 +7720,35 @@ PERFORMANCE OF THIS SOFTWARE.
             if (+hash.slice(-4).slice(2, 3)) carSeatsTotal += boosterCarSeatPrice * rentalPeriod;
             if (+hash.slice(-4).slice(3, 4)) driverTotal += driverPrice * rentalPeriod;
             total = highSeasonTotal + middleSeasonTotal + lowSeasonTotal + depositPrice + carSeatsTotal + driverTotal;
-            let paymentPage = ``;
-            paymentPage += `\n\t<div class="order-information">\n\t\t<div class="order-information-title">\n\t\t\t<div class="title">\n\t\t\t\t${orderInformationTitle[cLang]}\n\t\t\t</div>\t\n\t\t\t<img src="/img/cars/car${item.id}/front.jpg" alt="${item.name} Preview Photo" class="img-icon">\n\t\t</div>\n\t\t<div class="order-information-data">\n\t\t\t<div class="order-information-data-main">\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${orderNumberItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${orderNumber}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${carItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${item.name}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${carDeliveryItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${places[deliveryLocation][cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${carDropoffItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${places[dropoffLocation][cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${rentalPeriodItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${rentalPeriod} ${daysItemName[cLang]} \n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t\t<div class="bold">\n\t\t\t\t${rentPriceItemName[cLang]} \n\t\t\t\t</div>\n\t\t\t<div class="order-information-data-rent-price">\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${lowSeasonItemName[cLang]}  \n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${lowSeasonTotal} € \n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${middleSeasonItemName[cLang]}  \n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${middleSeasonTotal} € \n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${highSeasonItemName[cLang]}  \n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${highSeasonTotal} € \n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell bold item-name">\n\t\t\t\t\t${totalRentItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${highSeasonTotal + middleSeasonTotal + lowSeasonTotal}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${depositItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${depositPrice}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${InsuranceItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${insurancePrice}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t\t<div class="bold">\n\t\t\t\t${additionalServicesItemName[cLang]} \n\t\t\t\t</div>\n\t\t\t<div class="order-information-data-extra">\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${carSeatItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${carSeatsTotal}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${driverItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${driverTotal}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell bold item-name">\n\t\t\t\t\t${totalItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${total}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\t\t\n\t\t</div>\n\t</div>\n\t<div class="payment-information">\n\t\t<div class="payment-information-title">\n\t\t\tДанные для оплаты\t\t\n\t\t</div>\n\t\t<form id="fs-frm" name="payment-information-form" accept-charset="utf-8"\n\t\t\taction="https://formspree.io/f/mleyqlv" method="POST">\n\t\t\t<fieldset class="payment-information-block" id="fs-frm-inputs">\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="column">\n\t\t\t\t\t\t<label class="payment-information-cell label" for="first-name">Имя<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="text" name="first name" id="first-name" placeholder=""\n\t\t\t\t\t\t\trequired="">\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="column">\n\t\t\t\t\t\t<label class="payment-information-cell label" for="second-name">Фамилия<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="text" name="second name" id="second-name" placeholder=""\n\t\t\t\t\t\t\trequired="">\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="column">\n\t\t\t\t\t\t<label class="payment-information-cell label" for="email-address">Email<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="email" name="email" id="email-address" placeholder=""\n\t\t\t\t\t\t\trequired="">\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="column">\n\t\t\t\t\t\t<label class="payment-information-cell label" for="email-address">Телефон<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="email" name="phone number" id="phone-number" placeholder=""\n\t\t\t\t\t\t\trequired="">\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="column">\n\t\t\t\t\t\t<label class="payment-information-cell label" for="email-address">Адрес<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="email" name="address" id="address" placeholder=""\n\t\t\t\t\t\t\trequired="">\t\t\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="column">\n\t\t\t\t\t\t<label class="payment-information-cell label" for="email-address">Адрес (продолжение)<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="email" name="extra address" id="extra-address" placeholder=""\n\t\t\t\t\t\t\trequired="">\n\t\t\t\t\t</div>\t\t\t\t\t\t\t\t\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="column">\t\n\t\t\t\t\t\t<label class="payment-information-cell label" for="email-address">Индекс<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="email" name="index" id="index" placeholder=""\n\t\t\t\t\t\t\trequired="">\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="column">\n\t\t\t\t\t\t<label class="payment-information-cell label" for="email-address">Город<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="email" name="City" id="City" placeholder=""\n\t\t\t\t\t\t\trequired="">\n\t\t\t\t\t</div>\t\t\t\t\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="column">\t\n\t\t\t\t\t\t<label class="payment-information-cell label" for="email-address">Штат/провинция<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="email" name="State" id="State" placeholder=""\n\t\t\t\t\t\t\trequired="">\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="column">\n\t\t\t\t\t\t<label class="payment-information-cell label" for="email-address">Страна<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="email" name="Country" id="Country" placeholder=""\n\t\t\t\t\t\t\trequired="">\n\t\t\t\t\t</div>\t\t\t\t\n\t\t\t\t</div>\n\t\t\t\t<input type="hidden" name="_subject" id="email-subject" value="Payment Information Submission">\n\t\t\t</fieldset>\n\t\t\t<div class="payment-information-checkbox">\n\t\t\t\t<input type="checkbox" name="I agree" value="yes">\n\t\t\t\tЯ соглашаюсь с Политикой конфиденциальности\t\t\t\n\t\t\t</div>\n\t\t\t<div class="payment-information-button">\n\t\t\t\t<input class="payment-information-button-back" type="submit" value="Назад">\n\t\t\t\t<input class="payment-information-button-pay" type="submit" value="Оплатить">\n\t\t\t</div>\n\t\t</form>\t\n\t</div>`;
+            paymentPage += `\n\t<div class="order-information">\n\t\t<div class="order-information-title">\n\t\t\t<div class="title">\n\t\t\t\t${orderInformationTitle[cLang]}\n\t\t\t</div>\t\n\t\t\t<img src="/img/cars/car${item.id}/front.jpg" alt="${item.name} Preview Photo" class="img-icon">\n\t\t</div>\n\t\t<div class="order-information-data">\n\t\t\t<div class="order-information-data-main">\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${orderNumberItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${orderNumber}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${carItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${item.name}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${carDeliveryItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${places[deliveryLocation][cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${carDropoffItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${places[dropoffLocation][cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${rentalPeriodItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${rentalPeriod} ${daysItemName[cLang]} \n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t\t<div class="bold">\n\t\t\t\t${rentPriceItemName[cLang]} \n\t\t\t\t</div>\n\t\t\t<div class="order-information-data-rent-price">\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${lowSeasonItemName[cLang]}  \n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${lowSeasonTotal} € \n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${middleSeasonItemName[cLang]}  \n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${middleSeasonTotal} € \n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${highSeasonItemName[cLang]}  \n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${highSeasonTotal} € \n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell bold item-name">\n\t\t\t\t\t${totalRentItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${highSeasonTotal + middleSeasonTotal + lowSeasonTotal} € \n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${depositItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${depositPrice} € \n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${InsuranceItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${insurancePrice} € \n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t\t<div class="bold">\n\t\t\t\t${additionalServicesItemName[cLang]} \n\t\t\t\t</div>\n\t\t\t<div class="order-information-data-extra">\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${carSeatItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${carSeatsTotal} € \n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${driverItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${driverTotal} € \n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell bold item-name">\n\t\t\t\t\t${totalItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${total} € \n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\t\t\n\t\t</div>\n\t</div>\n\t<div class="payment-information">\n\t\t<div class="payment-information-title">\n\t\t${paymentInformationTitleItemName[cLang]}\n\t\t</div>\n\t\t<form id="fs-frm" name="payment-information-form" accept-charset="utf-8"\n\t\t\taction="https://formspree.io/f/mleyqlvd" method="POST">\n\t\t\t<fieldset class="payment-information-block" id="fs-frm-inputs">\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="column">\n\t\t\t\t\t\t<label class="payment-information-cell label" for="first-name">${firstNameItemName[cLang]}<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="text" name="first name" id="first-name" placeholder=""\n\t\t\t\t\t\t\trequired="">\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="column">\n\t\t\t\t\t\t<label class="payment-information-cell label" for="second-name">${secondNameItemName[cLang]}<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="text" name="second name" id="second-name" placeholder=""\n\t\t\t\t\t\t\trequired="">\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="column">\n\t\t\t\t\t\t<label class="payment-information-cell label" for="email-address">Email<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="email" name="email" id="email-address" placeholder=""\n\t\t\t\t\t\t\trequired="">\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="column">\n\t\t\t\t\t\t<label class="payment-information-cell label" for="phone-number">${phoneNumberItemName[cLang]}<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="text" name="phone number" id="phone-number" placeholder=""\n\t\t\t\t\t\t\trequired="">\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="column">\n\t\t\t\t\t\t<label class="payment-information-cell label" for="address">${addressItemName[cLang]}<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="text" name="address" id="address" placeholder=""\n\t\t\t\t\t\t\trequired="">\t\t\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="column">\n\t\t\t\t\t\t<label class="payment-information-cell label" for="extra-address">${addressItemName[cLang]} (${extraItemName[cLang]})<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="text" name="extra address" id="extra-address" placeholder="">\n\t\t\t\t\t</div>\t\t\t\t\t\t\t\t\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="column">\t\n\t\t\t\t\t\t<label class="payment-information-cell label" for="postalcode">${postalcodeItemName[cLang]}<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="text" name="postalcode" id="index" placeholder=""\n\t\t\t\t\t\t\trequired="">\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="column">\n\t\t\t\t\t\t<label class="payment-information-cell label" for="City">${cityItemName[cLang]}<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="text" name="City" id="City" placeholder=""\n\t\t\t\t\t\t\trequired="">\n\t\t\t\t\t</div>\t\t\t\t\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="column">\t\n\t\t\t\t\t\t<label class="payment-information-cell label" for="State">${stateItemName[cLang]}<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="text" name="State" id="State" placeholder=""\n\t\t\t\t\t\t\trequired="">\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="column">\n\t\t\t\t\t\t<label class="payment-information-cell label" for="Country">${countryItemName[cLang]}<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="text" name="Country" id="Country" placeholder=""\n\t\t\t\t\t\t\trequired="">\n\t\t\t\t\t</div>\t\t\t\t\n\t\t\t\t</div>\n\t\t\t\t<input type="hidden" name="_subject" id="email-subject" value="Payment Information Submission">\n\t\t\t</fieldset>\n\t\t\t<div class="payment-information-checkbox">\n\t\t\t\t<input type="checkbox" name="I agree" value="yes">\n\t\t\t\t${agreementItemName[cLang]}\n\t\t\t</div>\n\t\t\t<div class="payment-information-button">\n\t\t\t\t<a class="payment-information-button-back" href="car.html#${item.id}">${backItemName[cLang]}</a>\n\t\t\t\t<input class="payment-information-button-pay" type="" value="${payItemName[cLang]}">\n\t\t\t</div>\n\t\t</form>\t\n\t</div>`;
             paymentBlockContainer.innerHTML = "";
-            paymentBlockContainer.innerHTML = paymentPage;
+            paymentBlockContainer.insertAdjacentHTML("beforeend", paymentPage);
+            let paymentButton = document.querySelector(".payment-information-button-pay");
+            paymentButton.addEventListener("click", createRSVPEmail);
+            async function createRSVPEmail(event) {
+                const eventName = "Мероприятие";
+                const eventDate = "20230101T120000Z";
+                const eventLocation = "Адрес мероприятия";
+                const organizerEmail = "andrew1993q@gmail.com";
+                const icsContent = `\n\t BEGIN:VCALENDAR\n\t VERSION:2.0\n\t CALSCALE:GREGORIAN\n\t METHOD:REQUEST\n\t BEGIN:VEVENT\n\t SUMMARY:${eventName}\n\t DESCRIPTION:Приглашаем вас на мероприятие.\n\t DTSTART:${eventDate}\n\t DTEND:${eventDate}\n\t LOCATION:${eventLocation}\n\t ORGANIZER:MAILTO:${organizerEmail}\n\t STATUS:CONFIRMED\n\t SEQUENCE:0\n\t BEGIN:VALARM\n\t TRIGGER:-PT15M\n\t DESCRIPTION:Напоминание о мероприятии\n\t ACTION:DISPLAY\n\t END:VALARM\n\t END:VEVENT\n\t END:VCALENDAR\n\t\t`;
+                const base64ICal = btoa(unescape(encodeURIComponent(icsContent)));
+                const htmlContent = `\n\t <!DOCTYPE html>\n\t <html>\n\t <head>\n\t\t<title>Приглашение на мероприятие</title>\n\t </head>\n\t <body>\n\t\t<p>Дорогие гости!</p>\n\t\t<p>Мы рады пригласить вас на мероприятие:</p>\n\t\t<p><strong>${eventName}</strong></p>\n\t\t<p>Дата и время: ${eventDate}</p>\n\t\t<p>Место проведения: ${eventLocation}</p>\n\t\t<p>Пожалуйста, подтвердите свое участие.</p>\n\t\t<p>Вложение: <a href="data:text/calendar;base64,${base64ICal}" download="${eventName}.ics">Добавить в календарь</a></p>\n\t\t\x3c!-- Метаданные для Google Calendar --\x3e\n\t\t<meta itemprop="name" content="${eventName}">\n\t\t<meta itemprop="description" content="Приглашение на мероприятие.">\n\t\t<meta itemprop="startDate" content="${eventDate}">\n\t\t<meta itemprop="endDate" content="${eventDate}">\n\t\t<meta itemprop="location" content="${eventLocation}">\n\t </body>\n\t </html>\n\t\t`;
+                console.log(htmlContent);
+                event.preventDefault();
+                fetch("https://formspree.io/f/mleyqlvd", {
+                    method: "POST",
+                    body: htmlContent,
+                    headers: {
+                        Accept: "application/json"
+                    }
+                }).then((response => {
+                    if (response.ok) ; else response.json().then((data => {
+                        console.log("error");
+                    }));
+                })).catch((error => {
+                    console.log("problem");
+                }));
+            }
         }
         console.log("____");
         window["FLS"] = true;

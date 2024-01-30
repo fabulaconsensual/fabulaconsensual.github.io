@@ -85,18 +85,227 @@
 
 			<section class="payment-block">
 				<div class="payment-block__container">
+
+
 					<div class="order-information">
 						<div class="order-information-title">
 							<div class="title">
-								Order information
+								Информация о заказе
 							</div>
+							<img src="/img/cars/car${item.id}/front.jpg" alt="${item.name} Preview Photo" class="img-icon" id="carPicture">
+						</div>
+						<div class="order-information-data">
+							<div class="order-information-data-main">
+								<div class="row">
+									<div class="order-information-data-main-cell item-name">
+										№ заказа:
+									</div>
+									<div class="order-information-data-main-cell item-value" id="orderNumber">
+										00000
+									</div>
+								</div>
+								<div class="row">
+									<div class="order-information-data-main-cell item-name">
+										Автомобиль:
+									</div>
+									<div class="order-information-data-main-cell item-value" id="car">
+										Toyota Yaris 2019
+									</div>
+								</div>
+								<div class="row">
+									<div class="order-information-data-main-cell item-name">
+										Место подачи авто:
+									</div>
+									<div class="order-information-data-main-cell item-value" id="carDelivery">
+										Aeroport
+									</div>
+								</div>
+								<div class="row">
+									<div class="order-information-data-main-cell item-name">
+										Место сдачи авто:
+									</div>
+									<div class="order-information-data-main-cell item-value" id="carDropoff">
+										Aeroport
+									</div>
+								</div>
+								<div class="row">
+									<div class="order-information-data-main-cell item-name">
+										Период аренды:
+									</div>
+									<div class="order-information-data-main-cell item-value" id="rentalPeriod">
+										0 days
+									</div>
+								</div>
+							</div>
+							<div class="bold">
+								Стоимость аренды:
+							</div>
+							<div class="order-information-data-rent-price">
+								<div class="row">
+									<div class="order-information-data-main-cell item-name">
+										Низкий сезон:
+									</div>
+									<div class="order-information-data-main-cell item-value" id="lowSeason">
+										0 €
+									</div>
+								</div>
+								<div class="row">
+									<div class="order-information-data-main-cell item-name">
+										Средний сезон:
+									</div>
+									<div class="order-information-data-main-cell item-value" id="middleSeason">
+										0 €
+									</div>
+								</div>
+								<div class="row">
+									<div class="order-information-data-main-cell item-name">
+										Праздники/высокий сезон:
+									</div>
+									<div class="order-information-data-main-cell item-value" id="highSeason">
+										0 €
+									</div>
+								</div>
+								<div class="row">
+									<div class="order-information-data-main-cell bold item-name">
+										Итого аренда:
+									</div>
+									<div class="order-information-data-main-cell item-value" id="totalRent">
+										0 €
+									</div>
+								</div>
+								<div class="row">
+									<div class="order-information-data-main-cell item-name">
+										Депозит:
+									</div>
+									<div class="order-information-data-main-cell item-value" id="deposit">
+										0 €
+									</div>
+								</div>
+								<div class="row">
+									<div class="order-information-data-main-cell item-name">
+										Страховка:
+									</div>
+									<div class="order-information-data-main-cell item-value" id="insurance">
+										0 €
+									</div>
+								</div>
+							</div>
+							<div class="bold">
+								Дополнительные услуги:
+							</div>
+							<div class="order-information-data-extra">
+								<div class="row">
+									<div class="order-information-data-main-cell item-name">
+										Автокресло:
+									</div>
+									<div class="order-information-data-main-cell item-value" id="carSeat">
+										0 €
+									</div>
+								</div>
+								<!--<div class="row">
+					<div class="order-information-data-main-cell item-name">
+					Водитель:
+					<div class="order-information-data-main-cell item-value" id="driver">
+					0 € 
+					</div>
+				</div>-->
+								<div class="row">
+									<div class="order-information-data-main-cell bold item-name">
+										ИТОГО:
+									</div>
+									<div class="order-information-data-main-cell item-value" id="total">
+										0 €
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="payment-information">
+						<div class="payment-information-title">
+							Данные об арендаторе
+						</div> <!---->
+						<form id="fs-frm" name="payment-information-form" accept-charset="utf-8" action="https://barely-enjoyed-joey.ngrok-free.app" method="POST">
+							<fieldset class="payment-information-block" id="fs-frm-inputs">
+								<div class="row">
+									<div class="column">
+										<label class="payment-information-cell label" for="first-name">Имя<span>*</span></label>
+										<input class="payment-information-cell field" type="text" name="first name" id="first-name" placeholder="" required="">
+									</div>
+									<div class="column">
+										<label class="payment-information-cell label" for="second-name">Фамилия<span>*</span></label>
+										<input class="payment-information-cell field" type="text" name="second name" id="second-name" placeholder="" required="">
+									</div>
+								</div>
+								<div class="row">
+									<div class="column">
+										<label class="payment-information-cell label" for="email-address">Email<span>*</span></label>
+										<input class="payment-information-cell field" type="email" name="email" id="email-address" placeholder="" required="">
+									</div>
+									<div class="column">
+										<label class="payment-information-cell label" for="phone-number">Номер телефона<span>*</span></label>
+										<input class="payment-information-cell field" type="text" name="phone number" id="phone-number" placeholder="" required="">
+									</div>
+								</div>
+								<!--<div class="row">
+					<div class="column">
+						<label class="payment-information-cell label" for="address">Адрес<span>*</span></label>
+						<input class="payment-information-cell field" type="text" name="address" id="address" placeholder=""
+							required="">		
+					</div>
+					<div class="column">
+						<label class="payment-information-cell label" for="extra-address">Адрес (продолжение)<span>*</span></label>
+						<input class="payment-information-cell field" type="text" name="extra address" id="extra-address" placeholder="">
+					</div>								
+				</div>
+				<div class="row">
+					<div class="column">	
+						<label class="payment-information-cell label" for="postalcode">Почтовый индекс<span>*</span></label>
+						<input class="payment-information-cell field" type="text" name="postalcode" id="index" placeholder=""
+							required="">
+					</div>
+					<div class="column">
+						<label class="payment-information-cell label" for="City">Город<span>*</span></label>
+						<input class="payment-information-cell field" type="text" name="City" id="City" placeholder=""
+							required="">
+					</div>				
+				</div>
+				<div class="row">
+					<div class="column">	
+						<label class="payment-information-cell label" for="State">Штат / Провинция<span>*</span></label>
+						<input class="payment-information-cell field" type="text" name="State" id="State" placeholder=""
+							required="">
+					</div>
+					<div class="column">
+						<label class="payment-information-cell label" for="Country">Страна<span>*</span></label>
+						<input class="payment-information-cell field" type="text" name="Country" id="Country" placeholder=""
+							required="">
+					</div>				
+				</div>-->
+								<input type="hidden" name="_subject" id="email-subject" value="Payment Information Submission">
+							</fieldset>
+							<div class="payment-information-checkbox">
+								<input type="checkbox" name="I agree" value="yes">
+								Я соглашаюсь с Политикой конфиденциальности
+							</div>
+							<div class="payment-information-button">
+								<a class="payment-information-button-back" href="cars.html" id="buttonBack">Предоплата</a>
+								<input class="payment-information-button-pay" type="" value="Book" id="buttonPay">
+							</div>
+						</form>
+					</div>
+
+					<!--<div class="order-information">
+						<div class="order-information-title">
+							<div class="title">
+								Order information 
+							</div>	
 							<img src="../img/payment/title.jpeg" alt="Toyota Yaris 2019 Preview Photo" class="img-icon">
 						</div>
 						<div class="order-information-data">
 							<div class="order-information-data-main">
 								<div class="row">
 									<div class="order-information-data-main-cell item-name">
-										Order number:
+										Order number: 
 									</div>
 									<div class="order-information-data-main-cell item-value">
 										00000
@@ -107,7 +316,7 @@
 										Car
 									</div>
 									<div class="order-information-data-main-cell item-value">
-										Toyota Yaris 2019
+										Toyota Yaris 2019 
 									</div>
 								</div>
 								<div class="row">
@@ -135,9 +344,9 @@
 									</div>
 								</div>
 							</div>
-							<div class="bold">
-								Rent price:
-							</div>
+								<div class="bold">
+									Rent price:
+								</div>
 							<div class="order-information-data-rent-price">
 								<div class="row">
 									<div class="order-information-data-main-cell item-name">
@@ -168,7 +377,7 @@
 										Total rent:
 									</div>
 									<div class="order-information-data-main-cell item-value">
-										0 €
+										0 € 
 									</div>
 								</div>
 								<div class="row">
@@ -176,7 +385,7 @@
 										Deposit:
 									</div>
 									<div class="order-information-data-main-cell item-value">
-										0 €
+										0 € 
 									</div>
 								</div>
 								<div class="row">
@@ -184,20 +393,20 @@
 										Insurance:
 									</div>
 									<div class="order-information-data-main-cell item-value">
-										0 €
+										0 € 
 									</div>
 								</div>
 							</div>
-							<div class="bold">
-								Additional services:
-							</div>
+								<div class="bold">
+									Additional services:
+								</div>
 							<div class="order-information-data-extra">
 								<div class="row">
 									<div class="order-information-data-main-cell item-name">
 										Car seat:
 									</div>
 									<div class="order-information-data-main-cell item-value">
-										0 €
+										0 € 
 									</div>
 								</div>
 								<div class="row">
@@ -205,7 +414,7 @@
 										Driver:
 									</div>
 									<div class="order-information-data-main-cell item-value">
-										0 €
+										0 € 
 									</div>
 								</div>
 								<div class="row">
@@ -213,67 +422,77 @@
 										TOTAL:
 									</div>
 									<div class="order-information-data-main-cell item-value">
-										0 €
+										0 € 
 									</div>
 								</div>
-							</div>
+							</div>		
 						</div>
 					</div>
 					<div class="payment-information">
 						<div class="payment-information-title">
 							Payment details
 						</div>
-						<form id="fs-frm" name="payment-information-form" accept-charset="utf-8" action="https://formspree.io/f/mleyqlvd" method="POST">
+						<form id="fs-frm" name="payment-information-form" accept-charset="utf-8"
+							action="https://formspree.io/f/mleyqlvd" method="POST">
 							<fieldset class="payment-information-block" id="fs-frm-inputs">
 								<div class="row">
 									<div class="column">
 										<label class="payment-information-cell label" for="first-name">First name<span>*</span></label>
-										<input class="payment-information-cell field" type="text" name="first name" id="first-name" placeholder="" required="">
+										<input class="payment-information-cell field" type="text" name="first name" id="first-name" placeholder=""
+											required="">
 									</div>
 									<div class="column">
 										<label class="payment-information-cell label" for="second-name">Surname<span>*</span></label>
-										<input class="payment-information-cell field" type="text" name="second name" id="second-name" placeholder="" required="">
+										<input class="payment-information-cell field" type="text" name="second name" id="second-name" placeholder=""
+											required="">
 									</div>
 								</div>
 								<div class="row">
 									<div class="column">
 										<label class="payment-information-cell label" for="email-address">Email<span>*</span></label>
-										<input class="payment-information-cell field" type="email" name="email" id="email-address" placeholder="" required="">
+										<input class="payment-information-cell field" type="email" name="email" id="email-address" placeholder=""
+											required="">
 									</div>
 									<div class="column">
 										<label class="payment-information-cell label" for="phone-number">Phone number<span>*</span></label>
-										<input class="payment-information-cell field" type="text" name="phone number" id="phone-number" placeholder="" required="">
+										<input class="payment-information-cell field" type="text" name="phone number" id="phone-number" placeholder=""
+											required="">
 									</div>
 								</div>
 								<div class="row">
 									<div class="column">
 										<label class="payment-information-cell label" for="address">Address<span>*</span></label>
-										<input class="payment-information-cell field" type="text" name="address" id="address" placeholder="" required="">
+										<input class="payment-information-cell field" type="text" name="address" id="address" placeholder=""
+											required="">		
 									</div>
 									<div class="column">
 										<label class="payment-information-cell label" for="extra-address">Address extra<span>*</span></label>
 										<input class="payment-information-cell field" type="text" name="extra address" id="extra-address" placeholder="">
-									</div>
+									</div>								
 								</div>
 								<div class="row">
-									<div class="column">
+									<div class="column">	
 										<label class="payment-information-cell label" for="postalcode">Postal code<span>*</span></label>
-										<input class="payment-information-cell field" type="text" name="postalcode" id="index" placeholder="" required="">
+										<input class="payment-information-cell field" type="text" name="postalcode" id="index" placeholder=""
+											required="">
 									</div>
 									<div class="column">
 										<label class="payment-information-cell label" for="City">City<span>*</span></label>
-										<input class="payment-information-cell field" type="text" name="City" id="City" placeholder="" required="">
-									</div>
+										<input class="payment-information-cell field" type="text" name="City" id="City" placeholder=""
+											required="">
+									</div>				
 								</div>
 								<div class="row">
-									<div class="column">
+									<div class="column">	
 										<label class="payment-information-cell label" for="State">State / Province<span>*</span></label>
-										<input class="payment-information-cell field" type="text" name="State" id="State" placeholder="" required="">
+										<input class="payment-information-cell field" type="text" name="State" id="State" placeholder=""
+											required="">
 									</div>
 									<div class="column">
 										<label class="payment-information-cell label" for="Country">A country<span>*</span></label>
-										<input class="payment-information-cell field" type="text" name="Country" id="Country" placeholder="" required="">
-									</div>
+										<input class="payment-information-cell field" type="text" name="Country" id="Country" placeholder=""
+											required="">
+									</div>				
 								</div>
 								<input type="hidden" name="_subject" id="email-subject" value="Payment Information Submission">
 							</fieldset>
@@ -287,8 +506,8 @@
 								</button>
 								<input class="payment-information-button-pay" type="submit" value="Pay">
 							</div>
-						</form>
-					</div>
+						</form>	
+					</div>-->
 
 				</div>
 			</section>

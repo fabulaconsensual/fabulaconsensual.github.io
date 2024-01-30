@@ -997,11 +997,13 @@ h6 {
 
 .car__picture {
   max-width: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
   -webkit-box-flex: 0;
       -ms-flex: 0 1 auto;
           flex: 0 1 auto;
+}
+
+.car__picture img {
+  max-width: 100%;
 }
 
 .car__cdtable {
@@ -1526,8 +1528,6 @@ h6 {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
-  -o-object-fit: cover;
-     object-fit: cover;
 }
 
 .car-block__row_item .car-ptr {

@@ -6619,7 +6619,7 @@ PERFORMANCE OF THIS SOFTWARE.
                             console.error("Error fetching events:", error);
                         }));
                     }
-                    if (payment_information_data && item.id == location.hash.slice(1, 2)) buildPaymentPage(item, location.hash.slice(1, 32));
+                    if (payment_information_data && item.id == parseInt(location.hash.slice(1, 3))) buildPaymentPage(item, location.hash.slice(1, 32));
                     itemN += 1;
                 }));
                 if (itemN % 2 === 0) if (car_park_down) buildCarParkOddBlock();
@@ -7132,7 +7132,6 @@ PERFORMANCE OF THIS SOFTWARE.
                     return bool;
                 }
                 buildCalendar(item, events);
-                countServices();
                 codeGenerator();
             }
         }
@@ -7142,7 +7141,7 @@ PERFORMANCE OF THIS SOFTWARE.
             document.querySelector(".langselect__body").querySelectorAll("a").forEach((link => {
                 link.href += location.hash;
             }));
-            car_picture.insertAdjacentHTML("beforeend", `<img src="/img/cars/car${item.id}/front.jpg" width="500px;" alt="${item.name} Preview Photo">`);
+            car_picture.insertAdjacentHTML("beforeend", `<img src="/img/cars/car${item.id}/front.jpg"  alt="${item.name} Preview Photo">`);
             function addMainTableRow(val, uline, labelmap) {
                 let str = `<div class="car__cdtable_cell `;
                 str += uline ? `gray-underline` : `gray`;
@@ -7195,10 +7194,10 @@ PERFORMANCE OF THIS SOFTWARE.
             let otherOptions = ``;
             otherOptions += addOption(item.seqf, {
                 en: "Security Alarm",
-                pt: "[TBD]",
-                fr: "[TBD]",
-                ua: "[TBD]",
-                ru: "сигнализация"
+                pt: "Alarme de segurança",
+                fr: "Alarme de sécurité",
+                ua: "Охоронна сигналізація",
+                ru: "Сигнализация"
             });
             otherOptions += addOption(item.btf, {
                 en: "Bluetooth",
@@ -7209,31 +7208,31 @@ PERFORMANCE OF THIS SOFTWARE.
             });
             otherOptions += addOption(item.ccf, {
                 en: "Cruise Control",
-                pt: "[TBD]",
-                fr: "[TBD]",
-                ua: "[TBD]",
-                ru: "круиз контроль"
+                pt: "Controle de cruzeiro",
+                fr: "Régulateur de vitesse",
+                ua: "Круіз контроль",
+                ru: "Круиз контроль"
             });
             otherOptions += addOption(item.ssf, {
                 en: "Start-stop system",
-                pt: "[TBD]",
-                fr: "[TBD]",
-                ua: "[TBD]",
-                ru: "система start-stop"
+                pt: "Sistema start-stop",
+                fr: "Système start-stop",
+                ua: "Система start-stop",
+                ru: "Cистема start-stop"
             });
             otherOptions += addOption(item.clockf, {
                 en: "Central look",
-                pt: "[TBD]",
-                fr: "[TBD]",
-                ua: "[TBD]",
-                ru: "центральный замок"
+                pt: "Aparência central",
+                fr: "Regard central",
+                ua: "Центральний вигляд",
+                ru: "Центральный замок"
             });
             otherOptions += addOption(item.mmf, {
                 en: "Mirror management",
-                pt: "[TBD]",
-                fr: "[TBD]",
-                ua: "электродзеркала",
-                ru: "электро зеркала"
+                pt: "Gerenciamento de espelho",
+                fr: "Gestion des miroirs",
+                ua: "Электродзеркала",
+                ru: "Электро зеркала"
             });
             otherOptions += addOption(item.apf, {
                 en: "Apple CarPay",
@@ -7244,10 +7243,10 @@ PERFORMANCE OF THIS SOFTWARE.
             });
             otherOptions += addOption(item.acf, {
                 en: "Climat control",
-                pt: "[TBD]",
-                fr: "[TBD]",
-                ua: "[TBD]",
-                ru: "кондиционер"
+                pt: "Controle climático",
+                fr: "Contrôle climatique",
+                ua: "Клімат контроль",
+                ru: "Кондиционер"
             });
             otherOptions += addOption(item.swf, {
                 en: "",
@@ -7257,15 +7256,15 @@ PERFORMANCE OF THIS SOFTWARE.
                 ru: ""
             });
             otherOptions += addOption(item.pmf, {
-                en: "",
-                pt: "",
-                fr: "",
-                ua: "",
-                ru: "мониторинг давления в шинах"
+                en: "Tire pressure monitoring",
+                pt: "Monitoramento da pressão dos pneus",
+                fr: "Surveillance de la pression des pneus",
+                ua: "Моніторинг тиску в шинах",
+                ru: "Мониторинг давления в шинах"
             });
             car_cdtable_others.insertAdjacentHTML("beforeend", otherOptions);
             buildCalendar(item, events);
-            code = item.id + code.substring(1, code.length);
+            if (item.id < 10) code = "0" + item.id + code.substring(1, code.length); else code = item.id + code.substring(1, code.length);
         }
         document.createElement(null);
         document.createElement(null);
@@ -7273,7 +7272,8 @@ PERFORMANCE OF THIS SOFTWARE.
         document.createElement(null);
         let services = document.createElement(null);
         let activeZone = document.querySelector(".car__booking-form");
-        if (activeZone != null) activeZone.addEventListener("click", codeGenerator);
+        document.querySelectorAll(".service-amount");
+        if (activeZone != null) activeZone.addEventListener("change", codeGenerator);
         let carDeliveryDateBlock = document.createElement(null);
         let carDropoffDateBlock = document.createElement(null);
         let carDeliveryTimeBlock = document.createElement(null);
@@ -7313,17 +7313,17 @@ PERFORMANCE OF THIS SOFTWARE.
         }
         function codeGenerator() {
             let days = 0;
-            code = code.slice(0, 1) + "0".repeat(30);
+            code = code.slice(0, 2) + "0".repeat(31);
             if (firstDate != null) if (lastDate != null) {
                 days = (lastDate.getTime() - firstDate.getTime()) / 1e3 / 3600 / 24 + 1;
-                code = code.slice(0, 1) + firstDate.getFullYear() + (firstDate.getMonth() + 1).toString().padStart(2, "0") + firstDate.getDate().toString().padStart(2, "0") + carDeliveryTimeBlock.value.slice(0, 2) + carDeliveryTimeBlock.value.slice(3, 5) + lastDate.getFullYear() + (lastDate.getMonth() + 1).toString().padStart(2, "0") + lastDate.getDate().toString().padStart(2, "0") + carDropOffTimeBlock.value.slice(0, 2) + carDropOffTimeBlock.value.slice(3, 5) + code.slice(25, code.length);
+                code = code.slice(0, 2) + firstDate.getFullYear() + (firstDate.getMonth() + 1).toString().padStart(2, "0") + firstDate.getDate().toString().padStart(2, "0") + carDeliveryTimeBlock.value.slice(0, 2) + carDeliveryTimeBlock.value.slice(3, 5) + lastDate.getFullYear() + (lastDate.getMonth() + 1).toString().padStart(2, "0") + lastDate.getDate().toString().padStart(2, "0") + carDropOffTimeBlock.value.slice(0, 2) + carDropOffTimeBlock.value.slice(3, 5) + code.slice(26, code.length);
             } else {
                 days = 1;
-                code = code.slice(0, 1) + firstDate.getFullYear() + (firstDate.getMonth() + 1).toString().padStart(2, "0") + firstDate.getDate().toString().padStart(2, "0") + carDeliveryTimeBlock.value.slice(0, 2) + carDeliveryTimeBlock.value.slice(3, 5) + firstDate.getFullYear() + (firstDate.getMonth() + 1).toString().padStart(2, "0") + firstDate.getDate().toString().padStart(2, "0") + carDropOffTimeBlock.value.slice(0, 2) + carDropOffTimeBlock.value.slice(3, 5) + code.slice(25, code.length);
+                code = code.slice(0, 2) + firstDate.getFullYear() + (firstDate.getMonth() + 1).toString().padStart(2, "0") + firstDate.getDate().toString().padStart(2, "0") + carDeliveryTimeBlock.value.slice(0, 2) + carDeliveryTimeBlock.value.slice(3, 5) + firstDate.getFullYear() + (firstDate.getMonth() + 1).toString().padStart(2, "0") + firstDate.getDate().toString().padStart(2, "0") + carDropOffTimeBlock.value.slice(0, 2) + carDropOffTimeBlock.value.slice(3, 5) + code.slice(26, code.length);
             }
-            code = code.slice(0, 25) + selectDeliveryLocation.selectedIndex + selectDropoffLocation.selectedIndex + code.slice(27, code.length);
+            code = code.slice(0, 26) + selectDeliveryLocation.selectedIndex + selectDropoffLocation.selectedIndex + code.slice(27, code.length);
             services.forEach((item => {
-                if (item.firstElementChild.selectedIndex != NaN) if (item.firstElementChild.id == "baby-chair-small") code = code.slice(0, 27) + item.firstElementChild.selectedIndex + code.slice(28, code.length); else if (item.parentElement.firstElementChild.id == "baby-chair-middle") code = code.slice(0, 28) + item.firstElementChild.selectedIndex + code.slice(29, code.length); else if (item.parentElement.firstElementChild.id == "booster") code = code.slice(0, 29) + item.firstElementChild.selectedIndex + code.slice(30, code.length);
+                if (item.firstElementChild.selectedIndex != NaN) if (item.firstElementChild.id == "baby-chair-small") code = code.slice(0, 27) + item.firstElementChild.selectedIndex + code.slice(28, code.length); else if (item.firstElementChild.id == "baby-chair-middle") code = code.slice(0, 28) + item.firstElementChild.selectedIndex + code.slice(29, code.length); else if (item.firstElementChild.id == "booster") code = code.slice(0, 29) + item.firstElementChild.selectedIndex + code.slice(30, code.length);
             }));
             countServices();
         }
@@ -7390,14 +7390,17 @@ PERFORMANCE OF THIS SOFTWARE.
             if (firstDate != null) if (lastDate != null) days = (lastDate.getTime() - firstDate.getTime()) / 1e3 / 3600 / 24 + 1; else days = 1;
             services.forEach((item => {
                 if (item.firstElementChild.selectedIndex != 0) if (item.firstElementChild.id == "baby-chair-small") {
-                    serviceTotalPrice += 2.5 * days * item.firstElementChild.selectedIndex;
+                    serviceTotalPrice += smallCarSeatPrice * days * item.firstElementChild.selectedIndex;
                     avaliableSeats -= item.firstElementChild.selectedIndex;
+                    console.log("baby-chair-small " + smallCarSeatPrice * days * item.firstElementChild.selectedIndex);
                 } else if (item.firstElementChild.id == "baby-chair-middle") {
-                    serviceTotalPrice += 7.5 * days * item.firstElementChild.selectedIndex;
+                    serviceTotalPrice += middleCarSeatPrice * days * item.firstElementChild.selectedIndex;
                     avaliableSeats -= item.firstElementChild.selectedIndex;
+                    console.log("baby-chair-middle " + middleCarSeatPrice * days * item.firstElementChild.selectedIndex);
                 } else if (item.firstElementChild.id == "booster") {
-                    serviceTotalPrice += 2.5 * days * item.firstElementChild.selectedIndex;
+                    serviceTotalPrice += boosterCarSeatPrice * days * item.firstElementChild.selectedIndex;
                     avaliableSeats -= item.firstElementChild.selectedIndex;
+                    console.log("booster " + boosterCarSeatPrice * days * item.firstElementChild.selectedIndex);
                 }
             }));
             services.forEach((item => {
@@ -7432,9 +7435,9 @@ PERFORMANCE OF THIS SOFTWARE.
                     }
                 }
             }));
-            rentCost.textContent = rentTotalPrice + serviceTotalPrice + " €";
+            rentCost.textContent = Math.round(rentTotalPrice + serviceTotalPrice, -1) + " €";
             if (days > 0) deposit = parseInt(rentDeposit.textContent.split(" ")[0]);
-            rentSum.textContent = rentTotalPrice + serviceTotalPrice + deposit + " €";
+            rentSum.textContent = Math.round(rentTotalPrice + serviceTotalPrice + deposit, -1) + " €";
         }
         function buildPaymentPage(item, hash) {
             console.log(hash);
@@ -7445,7 +7448,7 @@ PERFORMANCE OF THIS SOFTWARE.
             let middleSeasonTotal = 0;
             let highSeasonTotal = 0;
             let total = 0;
-            let orderNumber = hash.slice(0, 1) + hash.slice(5, 9);
+            let orderNumber = hash.slice(0, 2) + ((new Date).getMonth() + 1).toString().padStart(2, "0") + (new Date).getDate().toString().padStart(2, "0") + (new Date).getHours().toString().padStart(2, "0") + (new Date).getMinutes().toString().padStart(2, "0");
             item.name;
             let places = {
                 0: {
@@ -7470,52 +7473,10 @@ PERFORMANCE OF THIS SOFTWARE.
                     ru: "Фуншал"
                 }
             };
-            let firstDate = new Date(hash.slice(1, 5), hash.slice(5, 7) - 1, hash.slice(7, 9));
-            let lastDate = new Date(hash.slice(13, 17), hash.slice(17, 19) - 1, hash.slice(19, 21));
+            let firstDate = new Date(hash.slice(2, 6), hash.slice(6, 8) - 1, hash.slice(8, 10));
+            let lastDate = new Date(hash.slice(14, 18), hash.slice(18, 20) - 1, hash.slice(20, 22));
             let deliveryLocation = +hash.slice(-6).slice(0, 1);
             let dropoffLocation = +hash.slice(-6).slice(1, 2);
-            let orderInformationTitle = {
-                en: "Order information",
-                pt: "Informações do pedido",
-                fr: "Informations sur la commande",
-                ua: "Iнформація про замовлення",
-                ru: "Информация о заказе"
-            };
-            let orderNumberItemName = {
-                en: "Order number:",
-                pt: "Número do pedido:",
-                fr: "Numéro de commande:",
-                ua: "№ заказа:",
-                ru: "№ заказа:"
-            };
-            let carItemName = {
-                en: "Car:",
-                pt: "Automóvel:",
-                fr: "Voiture:",
-                ua: "Автомобіль:",
-                ru: "Автомобиль:"
-            };
-            let carDeliveryItemName = {
-                en: "Car delivery location:",
-                pt: "Local de entrega do carro:",
-                fr: "Lieu de livraison de la voiture:",
-                ua: "Місце подачі авто:",
-                ru: "Место подачи авто:"
-            };
-            let carDropoffItemName = {
-                en: "Car drop off location:",
-                pt: "Local de entrega do carro:",
-                fr: "Lieu de dépôt des voitures :",
-                ua: "Місце здачі авто:",
-                ru: " Место сдачи авто: "
-            };
-            let rentalPeriodItemName = {
-                en: "Rental period:",
-                pt: "Período de aluguel:",
-                fr: "Durée de location:",
-                ua: "Період оренди:",
-                ru: "Период аренды:"
-            };
             let daysItemName = {
                 en: "days",
                 pt: "dias",
@@ -7523,176 +7484,32 @@ PERFORMANCE OF THIS SOFTWARE.
                 ua: "днів",
                 ru: "дней"
             };
-            let rentPriceItemName = {
-                en: "Rent price:",
-                pt: "Preço do aluguel:",
-                fr: "Prix du loyer:",
-                ua: "Вартість оренди:",
-                ru: "Стоимость аренды:"
-            };
-            let lowSeasonItemName = {
-                en: "Low season:",
-                pt: "Baixa temporada:",
-                fr: "Basse saison:",
-                ua: "Низький сезон:",
-                ru: "Низкий сезон:"
-            };
-            let middleSeasonItemName = {
-                en: "Average season:",
-                pt: "Temporada média:",
-                fr: "Saison moyenne:",
-                ua: "Середній сезон:",
-                ru: "Средний сезон:"
-            };
-            let highSeasonItemName = {
-                en: "Holidays/high season:",
-                pt: "Feriados/alta temporada:",
-                fr: "Vacances/haute saison:",
-                ua: "Свята/високий сезон:",
-                ru: "Праздники/высокий сезон:"
-            };
-            let totalRentItemName = {
-                en: "Total rent:",
-                pt: "Aluguel total:",
-                fr: "Loyer total:",
-                ua: "Разом оренда:",
-                ru: "Итого аренда:"
-            };
-            let depositItemName = {
-                en: "Deposit:",
-                pt: "Depósito:",
-                fr: "Dépôt:",
-                ua: "Депозит:",
-                ru: "Депозит:"
-            };
-            let InsuranceItemName = {
-                en: "Insurance:",
-                pt: "Seguro:",
-                fr: "Assurance:",
-                ua: "Страховка:",
-                ru: "Страховка:"
-            };
-            let additionalServicesItemName = {
-                en: "Additional services:",
-                pt: "Serviços adicionais:",
-                fr: "Des services supplémentaires:",
-                ua: "Додаткові послуги:",
-                ru: "Дополнительные услуги:"
-            };
-            let carSeatItemName = {
-                en: "Car seat:",
-                pt: "Assento de carro:",
-                fr: "Siège de voiture:",
-                ua: "Автокрісло:",
-                ru: "Автокресло:"
-            };
-            let driverItemName = {
-                en: "Driver:",
-                pt: "Motorista:",
-                fr: "Conducteur:",
-                ua: "Водій:",
-                ru: "Автомобиль:"
-            };
-            let totalItemName = {
-                en: "TOTAL:",
-                pt: "TOTAL:",
-                fr: "TOTAL:",
-                ua: "РАЗОМ:",
-                ru: "ИТОГО:"
-            };
-            let paymentInformationTitleItemName = {
-                en: "Payment details",
-                pt: "Detalhes do pagamento",
-                fr: "Détails de paiement",
-                ua: "Дані для оплати",
-                ru: " Данные для оплаты"
-            };
-            let firstNameItemName = {
-                en: "First name",
-                pt: "Primeiro nome",
-                fr: "Prénom",
-                ua: "Ім'я",
-                ru: "Имя"
-            };
-            let secondNameItemName = {
-                en: "Surname",
-                pt: "Sobrenome",
-                fr: "Nom de famille",
-                ua: "Прізвище",
-                ru: "Фамилия"
-            };
-            let phoneNumberItemName = {
-                en: "Phone number",
-                pt: "Número de telefone",
-                fr: "Numéro de téléphone",
-                ua: "Номер телефону",
-                ru: "Номер телефона"
-            };
-            let addressItemName = {
-                en: "Address",
-                pt: "Endereço",
-                fr: "Adresse",
-                ua: "Адреса",
-                ru: "Адрес"
-            };
-            let extraItemName = {
-                en: "extra",
-                pt: "extra",
-                fr: "supplémentaire",
-                ua: "додатковий",
-                ru: "продолжение"
-            };
-            let postalcodeItemName = {
-                en: "Postal code",
-                pt: "Código postal",
-                fr: "Code Postal",
-                ua: "Поштовий індекс",
-                ru: "Почтовый индекс"
-            };
-            let cityItemName = {
-                en: "City",
-                pt: "Cidade",
-                fr: "Ville",
-                ua: "Місто",
-                ru: "Город"
-            };
-            let stateItemName = {
-                en: "State / Province",
-                pt: "Estado / Província",
-                fr: "État / Province",
-                ua: "Штат / Провінція",
-                ru: "Штат / Провинция"
-            };
-            let countryItemName = {
-                en: "A country",
-                pt: "Um país",
-                fr: "Un pays",
-                ua: "Країна",
-                ru: "Страна"
-            };
-            let agreementItemName = {
-                en: "I agree to the Privacy Policy",
-                pt: "Eu concordo com a Política de Privacidade",
-                fr: "J'accepte la politique de confidentialité",
-                ua: "Я погоджуюсь з Політикою конфіденційності",
-                ru: "Я соглашаюсь с Политикой конфиденциальности"
-            };
-            let backItemName = {
-                en: "Back",
-                pt: "Voltar",
-                fr: "Dos",
-                ua: "Назад",
-                ru: "Назад"
-            };
             let payItemName = {
-                en: "Pay",
-                pt: "Pagar",
-                fr: "Payer",
-                ua: "Сплатити",
-                ru: "Оплатить"
+                en: "Book",
+                pt: "Livro",
+                fr: "Réserver",
+                ua: "Бронювати",
+                ru: "Бронировать"
             };
-            let paymentBlockContainer = document.querySelector(".payment-block__container");
-            let paymentPage = ``;
+            document.querySelector(".payment-block__container");
+            let orderNumberSection = document.getElementById("orderNumber");
+            let carSection = document.getElementById("car");
+            let carDeliverySection = document.getElementById("carDelivery");
+            let carDropoffSection = document.getElementById("carDropoff");
+            let rentalPeriodSection = document.getElementById("rentalPeriod");
+            let lowSeasonSection = document.getElementById("lowSeason");
+            let middleSeasonSection = document.getElementById("middleSeason");
+            let highSeasonSection = document.getElementById("highSeason");
+            let totalRentSection = document.getElementById("totalRent");
+            let depositSection = document.getElementById("deposit");
+            let insuranceSection = document.getElementById("insurance");
+            let carSeatSection = document.getElementById("carSeat");
+            document.getElementById("driver");
+            let totalSection = document.getElementById("total");
+            let langselectSection = document.querySelectorAll(".langselect__item");
+            langselectSection.forEach((item => {
+                item.firstChild.href += "#" + hash;
+            }));
             rentalPeriod = (lastDate.getTime() - firstDate.getTime()) / 1e3 / 3600 / 24 + 1;
             for (let i = 0; i < rentalPeriod; i++) {
                 let cdate = new Date(firstDate.getFullYear(), firstDate.getMonth(), firstDate.getDate() + i);
@@ -7715,38 +7532,70 @@ PERFORMANCE OF THIS SOFTWARE.
                     lowSeasonTotal += price;
                 } else middleSeasonTotal += price;
             }
-            if (+hash.slice(-4).slice(0, 1)) carSeatsTotal += smallCarSeatPrice * rentalPeriod;
-            if (+hash.slice(-4).slice(1, 2)) carSeatsTotal += middleCarSeatPrice * rentalPeriod;
-            if (+hash.slice(-4).slice(2, 3)) carSeatsTotal += boosterCarSeatPrice * rentalPeriod;
+            if (+hash.slice(-4).slice(0, 1)) carSeatsTotal += hash.slice(-4).slice(0, 1) * smallCarSeatPrice * rentalPeriod;
+            if (+hash.slice(-4).slice(1, 2)) carSeatsTotal += hash.slice(-4).slice(1, 2) * middleCarSeatPrice * rentalPeriod;
+            if (+hash.slice(-4).slice(2, 3)) carSeatsTotal += hash.slice(-4).slice(2, 3) * boosterCarSeatPrice * rentalPeriod;
             if (+hash.slice(-4).slice(3, 4)) driverTotal += driverPrice * rentalPeriod;
             total = highSeasonTotal + middleSeasonTotal + lowSeasonTotal + depositPrice + carSeatsTotal + driverTotal;
-            paymentPage += `\n\t<div class="order-information">\n\t\t<div class="order-information-title">\n\t\t\t<div class="title">\n\t\t\t\t${orderInformationTitle[cLang]}\n\t\t\t</div>\t\n\t\t\t<img src="/img/cars/car${item.id}/front.jpg" alt="${item.name} Preview Photo" class="img-icon">\n\t\t</div>\n\t\t<div class="order-information-data">\n\t\t\t<div class="order-information-data-main">\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${orderNumberItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${orderNumber}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${carItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${item.name}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${carDeliveryItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${places[deliveryLocation][cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${carDropoffItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${places[dropoffLocation][cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${rentalPeriodItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${rentalPeriod} ${daysItemName[cLang]} \n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t\t<div class="bold">\n\t\t\t\t${rentPriceItemName[cLang]} \n\t\t\t\t</div>\n\t\t\t<div class="order-information-data-rent-price">\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${lowSeasonItemName[cLang]}  \n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${lowSeasonTotal} € \n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${middleSeasonItemName[cLang]}  \n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${middleSeasonTotal} € \n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${highSeasonItemName[cLang]}  \n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${highSeasonTotal} € \n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell bold item-name">\n\t\t\t\t\t${totalRentItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${highSeasonTotal + middleSeasonTotal + lowSeasonTotal} € \n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${depositItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${depositPrice} € \n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${InsuranceItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${insurancePrice} € \n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t\t<div class="bold">\n\t\t\t\t${additionalServicesItemName[cLang]} \n\t\t\t\t</div>\n\t\t\t<div class="order-information-data-extra">\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${carSeatItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${carSeatsTotal} € \n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell item-name">\n\t\t\t\t\t${driverItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${driverTotal} € \n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="order-information-data-main-cell bold item-name">\n\t\t\t\t\t${totalItemName[cLang]}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="order-information-data-main-cell item-value">\n\t\t\t\t\t${total} € \n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\t\t\n\t\t</div>\n\t</div>\n\t<div class="payment-information">\n\t\t<div class="payment-information-title">\n\t\t${paymentInformationTitleItemName[cLang]}\n\t\t</div>\n\t\t<form id="fs-frm" name="payment-information-form" accept-charset="utf-8"\n\t\t\taction="https://formspree.io/f/mleyqlvd" method="POST">\n\t\t\t<fieldset class="payment-information-block" id="fs-frm-inputs">\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="column">\n\t\t\t\t\t\t<label class="payment-information-cell label" for="first-name">${firstNameItemName[cLang]}<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="text" name="first name" id="first-name" placeholder=""\n\t\t\t\t\t\t\trequired="">\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="column">\n\t\t\t\t\t\t<label class="payment-information-cell label" for="second-name">${secondNameItemName[cLang]}<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="text" name="second name" id="second-name" placeholder=""\n\t\t\t\t\t\t\trequired="">\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="column">\n\t\t\t\t\t\t<label class="payment-information-cell label" for="email-address">Email<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="email" name="email" id="email-address" placeholder=""\n\t\t\t\t\t\t\trequired="">\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="column">\n\t\t\t\t\t\t<label class="payment-information-cell label" for="phone-number">${phoneNumberItemName[cLang]}<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="text" name="phone number" id="phone-number" placeholder=""\n\t\t\t\t\t\t\trequired="">\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="column">\n\t\t\t\t\t\t<label class="payment-information-cell label" for="address">${addressItemName[cLang]}<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="text" name="address" id="address" placeholder=""\n\t\t\t\t\t\t\trequired="">\t\t\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="column">\n\t\t\t\t\t\t<label class="payment-information-cell label" for="extra-address">${addressItemName[cLang]} (${extraItemName[cLang]})<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="text" name="extra address" id="extra-address" placeholder="">\n\t\t\t\t\t</div>\t\t\t\t\t\t\t\t\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="column">\t\n\t\t\t\t\t\t<label class="payment-information-cell label" for="postalcode">${postalcodeItemName[cLang]}<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="text" name="postalcode" id="index" placeholder=""\n\t\t\t\t\t\t\trequired="">\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="column">\n\t\t\t\t\t\t<label class="payment-information-cell label" for="City">${cityItemName[cLang]}<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="text" name="City" id="City" placeholder=""\n\t\t\t\t\t\t\trequired="">\n\t\t\t\t\t</div>\t\t\t\t\n\t\t\t\t</div>\n\t\t\t\t<div class="row">\n\t\t\t\t\t<div class="column">\t\n\t\t\t\t\t\t<label class="payment-information-cell label" for="State">${stateItemName[cLang]}<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="text" name="State" id="State" placeholder=""\n\t\t\t\t\t\t\trequired="">\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="column">\n\t\t\t\t\t\t<label class="payment-information-cell label" for="Country">${countryItemName[cLang]}<span>*</span></label>\n\t\t\t\t\t\t<input class="payment-information-cell field" type="text" name="Country" id="Country" placeholder=""\n\t\t\t\t\t\t\trequired="">\n\t\t\t\t\t</div>\t\t\t\t\n\t\t\t\t</div>\n\t\t\t\t<input type="hidden" name="_subject" id="email-subject" value="Payment Information Submission">\n\t\t\t</fieldset>\n\t\t\t<div class="payment-information-checkbox">\n\t\t\t\t<input type="checkbox" name="I agree" value="yes">\n\t\t\t\t${agreementItemName[cLang]}\n\t\t\t</div>\n\t\t\t<div class="payment-information-button">\n\t\t\t\t<a class="payment-information-button-back" href="car.html#${item.id}">${backItemName[cLang]}</a>\n\t\t\t\t<input class="payment-information-button-pay" type="" value="${payItemName[cLang]}">\n\t\t\t</div>\n\t\t</form>\t\n\t</div>`;
-            paymentBlockContainer.innerHTML = "";
-            paymentBlockContainer.insertAdjacentHTML("beforeend", paymentPage);
+            document.getElementById("carPicture").src = `/img/cars/car${item.id}/front.jpg`;
+            document.getElementById("carPicture").alt = `${item.name} Preview Photo`;
+            document.getElementById("buttonBack").href = `car.html#${item.id}`;
+            document.getElementById("buttonPay").value = payItemName[cLang];
+            orderNumberSection.innerHTML = orderNumber;
+            carSection.innerHTML = item.name;
+            carDeliverySection.innerHTML = places[deliveryLocation][cLang];
+            carDropoffSection.innerHTML = places[dropoffLocation][cLang];
+            rentalPeriodSection.innerHTML = rentalPeriod + " " + daysItemName[cLang];
+            lowSeasonSection.innerHTML = lowSeasonTotal + " €";
+            middleSeasonSection.innerHTML = middleSeasonTotal + " €";
+            highSeasonSection.innerHTML = highSeasonTotal + " €";
+            totalRentSection.innerHTML = highSeasonTotal + middleSeasonTotal + lowSeasonTotal + " €";
+            depositSection.innerHTML = depositPrice + " €";
+            insuranceSection.innerHTML = insurancePrice + " €";
+            carSeatSection.innerHTML = carSeatsTotal + " €";
+            totalSection.innerHTML = total + " €";
             let paymentButton = document.querySelector(".payment-information-button-pay");
-            paymentButton.addEventListener("click", createRSVPEmail);
-            async function createRSVPEmail(event) {
-                const eventName = "Мероприятие";
-                const eventDate = "20230101T120000Z";
-                const eventLocation = "Адрес мероприятия";
-                const organizerEmail = "andrew1993q@gmail.com";
-                const icsContent = `\n\t BEGIN:VCALENDAR\n\t VERSION:2.0\n\t CALSCALE:GREGORIAN\n\t METHOD:REQUEST\n\t BEGIN:VEVENT\n\t SUMMARY:${eventName}\n\t DESCRIPTION:Приглашаем вас на мероприятие.\n\t DTSTART:${eventDate}\n\t DTEND:${eventDate}\n\t LOCATION:${eventLocation}\n\t ORGANIZER:MAILTO:${organizerEmail}\n\t STATUS:CONFIRMED\n\t SEQUENCE:0\n\t BEGIN:VALARM\n\t TRIGGER:-PT15M\n\t DESCRIPTION:Напоминание о мероприятии\n\t ACTION:DISPLAY\n\t END:VALARM\n\t END:VEVENT\n\t END:VCALENDAR\n\t\t`;
-                const base64ICal = btoa(unescape(encodeURIComponent(icsContent)));
-                const htmlContent = `\n\t <!DOCTYPE html>\n\t <html>\n\t <head>\n\t\t<title>Приглашение на мероприятие</title>\n\t </head>\n\t <body>\n\t\t<p>Дорогие гости!</p>\n\t\t<p>Мы рады пригласить вас на мероприятие:</p>\n\t\t<p><strong>${eventName}</strong></p>\n\t\t<p>Дата и время: ${eventDate}</p>\n\t\t<p>Место проведения: ${eventLocation}</p>\n\t\t<p>Пожалуйста, подтвердите свое участие.</p>\n\t\t<p>Вложение: <a href="data:text/calendar;base64,${base64ICal}" download="${eventName}.ics">Добавить в календарь</a></p>\n\t\t\x3c!-- Метаданные для Google Calendar --\x3e\n\t\t<meta itemprop="name" content="${eventName}">\n\t\t<meta itemprop="description" content="Приглашение на мероприятие.">\n\t\t<meta itemprop="startDate" content="${eventDate}">\n\t\t<meta itemprop="endDate" content="${eventDate}">\n\t\t<meta itemprop="location" content="${eventLocation}">\n\t </body>\n\t </html>\n\t\t`;
-                console.log(htmlContent);
+            paymentButton.addEventListener("click", createBookingRequest);
+            async function createBookingRequest(event) {
+                const bForm = document.getElementById("fs-frm");
                 event.preventDefault();
-                fetch("https://formspree.io/f/mleyqlvd", {
+                var data = new FormData;
+                data.append("subject", `#${item.id} ::${item.name} :: ${orderNumber}`);
+                data.append("client_name", `${bForm["first-name"].value} ${bForm["second-name"].value}`);
+                data.append("client_email", bForm["email-address"].value);
+                data.append("location", places[deliveryLocation]["en"]);
+                data.append("description", `\n\t\t№ заказа:${orderNumber}, \n\t\tАвтомобиль: ${item.name},  \n\t\tМесто подачи авто: ${places[deliveryLocation]["ru"]},  \n\t\tМесто сдачи авто: ${places[dropoffLocation]["ru"]},  \n\t\tПериод аренды: ${rentalPeriod} ${daysItemName["ru"]},\n\t\tНизкий сезон: ${lowSeasonTotal} €,\n\t\tСредний сезон: ${middleSeasonTotal} €,\n\t\tПраздники/высокий сезон: ${highSeasonTotal} €,\n\t\tИтого аренда: ${highSeasonTotal + middleSeasonTotal + lowSeasonTotal} €,\n\t\tДепозит: ${depositPrice} €,\n\t\tСтраховка: ${insurancePrice} €,\n\t\tАвтокресло: ${carSeatsTotal} €,\n\t\tИТОГО: ${total} €,\n\t\tИмя: ${document.getElementById("first-name").value},\n\t\tФамилия: ${document.getElementById("second-name").value},\n\t\tEmail: ${document.getElementById("email-address").value},\n\t\tНомер телефона: ${document.getElementById("phone-number").value},\n\t\tЯзык: ${cLang},\n\t\tДата и время подачи: ${hash.slice(2, 6)}-${hash.slice(6, 8)}-${hash.slice(8, 10)}T${hash.slice(10, 12)}:${hash.slice(12, 14)},\n\t\tДата и время возврата: ${hash.slice(14, 18)}-${hash.slice(18, 20)}-${hash.slice(20, 22)}T${hash.slice(22, 24)}:${hash.slice(24, 26)}`);
+                data.append("start_datetime", `${hash.slice(2, 6)}-${hash.slice(6, 8)}-${hash.slice(8, 10)}T${hash.slice(10, 12)}:${hash.slice(12, 14)}`);
+                data.append("end_datetime", `${hash.slice(14, 18)}-${hash.slice(18, 20)}-${hash.slice(20, 22)}T${hash.slice(22, 24)}:${hash.slice(24, 26)}`);
+                fetch("https://barely-enjoyed-joey.ngrok-free.app/send_email", {
                     method: "POST",
-                    body: htmlContent,
+                    body: data,
                     headers: {
                         Accept: "application/json"
                     }
                 }).then((response => {
-                    if (response.ok) ; else response.json().then((data => {
-                        console.log("error");
+                    if (response.ok) console.log("gmail OK"); else response.json().then((data => {
+                        if (Object.hasOwn(data, "errors")) console.log(data["errors"].map((error => error["message"])).join(", ")); else console.log("Oops! There was a problem submitting your form");
                     }));
                 })).catch((error => {
-                    console.log("problem");
+                    console.log("Oops! There was a problem submitting your form");
+                }));
+                fetch("https://formspree.io/f/mleyqlvd", {
+                    method: "POST",
+                    body: data,
+                    headers: {
+                        Accept: "application/json"
+                    }
+                }).then((response => {
+                    if (response.ok) {
+                        console.log("formspree OK");
+                        bForm.reset();
+                        window.location.href = "thanks.html";
+                    } else response.json().then((data => {
+                        if (Object.hasOwn(data, "errors")) console.log(data["errors"].map((error => error["message"])).join(", ")); else console.log("Oops! There was a problem submitting your form");
+                    }));
+                })).catch((error => {
+                    console.log("Oops! There was a problem submitting your form");
                 }));
             }
         }

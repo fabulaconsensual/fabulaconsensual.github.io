@@ -6614,7 +6614,7 @@ PERFORMANCE OF THIS SOFTWARE.
                         let events = [];
                         fetch(url).then((response => response.json())).then((data => {
                             events = data.items || [];
-                            if (events.length > 0) buildCarDetailPage(item, events);
+                            buildCarDetailPage(item, events);
                         })).catch((error => {
                             console.error("Error fetching events:", error);
                         }));

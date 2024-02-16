@@ -106,27 +106,6 @@
 			"pmf": 0
 		},
 		{
-			"id": 6,
-			"name": "Peugeot 108 2020",
-			"gallery": [],
-			"kpp": "manual",
-			"gas": "gasolin",
-			"vol": "1.0",
-			"seats": 5,
-			"sprice": "30",
-			"doors": 5,
-			"secf": 1,
-			"btf": 1,
-			"ccf": 1,
-			"swf": 0,
-			"acf": 1,
-			"apf": 0,
-			"clockf": 1,
-			"mmf": 1,
-			"ssf": 1,
-			"pmf": 0
-		},
-		{
 			"id": 7,
 			"name": "Datcha Stepway",
 			"gallery": [],
